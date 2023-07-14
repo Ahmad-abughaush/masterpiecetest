@@ -1,0 +1,31 @@
+{
+    "details": [
+        {
+            "id": "1",
+            "img": "https://jo.wiautomation.com/public/images/landing/anticipa/product/3RT10151AH01.jpg",
+            "productname": "Product 1",
+            "description": "Description of Product 1 teorm",
+            "shopname": "Shop 1",
+            "price": "10.99",
+            "quantity": "1"
+        },
+        {
+            "id": "2",
+            "img": "https://jo.wiautomation.com/public/images/landing/anticipa/product/3RT10151AH01.jpg",
+            "productname": "Product 2",
+            "description": "Description of Product 2",
+            "shopname": "Shop 2",
+            "price": " 19.99",
+            "quantity": "1"
+        },
+        {
+            "id": "3",
+            "img": "https://jo.wiautomation.com/public/images/landing/anticipa/product/3RT10151AH01.jpg",
+            "productname": "Product 3",
+            "description": "Description of Product 3",
+            "shopname": "Shop 3",
+            "price": "  14.99",
+            "quantity": "1"
+        }
+    ]
+}

@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+  font-family: serif;
+}
+
+body {
+  font-family: serif;
+}
+
+#nabvar {
+  opacity: .7;
+}
+
+.nav-link {
+  color: rgb(9, 88, 178);
+}
+
+#afooter {
+  color: white;
+}
+
+
+.about-section {
+  padding: 50px;
+  text-align: left;
+  background-color: #ffffff;
+  color: rgb(18, 17, 17);
+
+}
+
+#about-section1 {
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}

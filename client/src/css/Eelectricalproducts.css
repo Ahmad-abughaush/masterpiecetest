@@ -1,0 +1,33 @@
+
+
+#card-img-top-pr {
+    height: 200px;
+    border-radius: 10px;
+}
+
+#card-pr {
+    border: none;
+    box-shadow: 10px 5px 5px black;
+    transition: 2s;
+    width: 400px;
+    height: 480px;
+    margin: 20px;
+}
+
+#card-pr:hover {
+    color: white;
+    background-color: black;
+}
+
+a {
+    text-decoration: none;
+}
+
+#card-deck-pr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap:wrap; 
+    ;
+}

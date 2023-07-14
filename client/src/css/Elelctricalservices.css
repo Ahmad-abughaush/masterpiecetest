@@ -1,0 +1,44 @@
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     text-transform: capitalize;
+ }
+
+ body {
+     font-family: serif;
+ }
+
+
+
+ #card-img-top-ser {
+     height: 200px;
+     border-radius: 10px;
+ }
+
+ #card-ser {
+     border: none;
+     box-shadow: 10px 5px 5px black;
+     transition: 2s;
+     width: 400px;
+     height: 480px;
+     margin: 20px;
+ }
+
+ #card-ser:hover {
+     color: white;
+     background-color: black;
+ }
+
+ a {
+     text-decoration: none;
+ }
+
+ #card-deck-ser {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     flex-direction: row;
+     flex-wrap: wrap;
+     ;
+ }
