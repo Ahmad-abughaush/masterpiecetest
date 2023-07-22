@@ -25,10 +25,10 @@ export const Providerproduct = () => {
             formData.append('Quantity', Quantity);
             formData.append('Description', Description);
 
-            const response = await axios.post('http://localhost:5000/newitems', formData, 
-            ).then(res=>{
+            const response = await axios.post('http://localhost:5000/newitems', formData,
+            ).then(res => {
                 // console.log(res)
-            }).catch(err=>console.log(err))
+            }).catch(err => console.log(err))
             console.log(formData)
 
 
@@ -39,9 +39,9 @@ export const Providerproduct = () => {
             setQuantity('');
             setFile('');
             setDescription('');
-            
+
             window.location = '/';
-        } 
+        }
         catch (err) {
             console.error(err.message);
         }
@@ -66,11 +66,7 @@ export const Providerproduct = () => {
                     <div className="align-self-center text-center text-light col-md-8 offset-md-2">
                         <div className="lc-block mb-">
                             <div editable="rich">
-                                <div id="intro" className="display-6 fw-bolder" style={{ marginBottom: 40 }}>
-                                    <div id="intro1">
-                                        <h1 style={{ color: 'white' }}> provide us with your product details </h1>
-                                    </div>
-                                </div>
+
                                 <form style={{ marginTop: '15%' }} onSubmit={onSubmitForm}>
                                     <h1 style={{ color: 'white', marginBottom: '10%' }}> provide us with your product details </h1>
                                     {/* 2 column grid layout with text inputs for the first and last names */}

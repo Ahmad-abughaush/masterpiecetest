@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../css/ShoppingCart.css"
+import Nav from './layout/Nav';
 
 const ShoppingCart = () => {
     const [products, setProducts] = useState([]);
-    const [selectedCard, setSelectedCard] = useState('Credit Card');
     const [shippingAddress, setShippingAddress] = useState('');
     const [calculatedSubtotal, setCalculatedSubtotal] = useState('');
     const [calculatedTotal, setCalculatedTotal] = useState('');
@@ -18,6 +18,7 @@ const ShoppingCart = () => {
             setProducts(JSON.parse(cartData));
         }
     }, []);
+
     useEffect(() => {
         const totalPrice = products.reduce(
             (total, product) => total + product.price * product.quantity,
@@ -29,11 +30,11 @@ const ShoppingCart = () => {
         setCalculatedTotal(total);
     }, [products]);
 
-    
     const handleQuantityChange = (index, quantity) => {
         const updatedProducts = [...products];
         updatedProducts[index].quantity = quantity;
         setProducts(updatedProducts);
+        localStorage.setItem('cartProducts', JSON.stringify(updatedProducts));
     };
 
     const handleRemoveProduct = (index) => {
@@ -51,18 +52,14 @@ const ShoppingCart = () => {
         e.preventDefault();
         try {
             const order = {
-                // userId: user._id,
-                products: products.map((product) => ({
-                    productName: product.itemName,
-                    productQuantity: product.quantity,
-                    productPrice: product.price,
-                })),
-                subtotal: calculatedTotal,
-                total: calculatedSubtotal,
-                address: shippingAddress
+                user: { _id: 'user_id_here' }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
+                products: products,
+                calculatedTotal: calculatedTotal,
+                calculatedSubtotal: calculatedSubtotal,
+                shippingAddress: shippingAddress,
             };
 
-            const response = await axios.post('http://localhost:5000/neworders', order);
+            const response = await axios.post('http://localhost:5000/neworder', order);
             console.log(response);
             window.location = '/';
         } catch (err) {
@@ -70,8 +67,14 @@ const ShoppingCart = () => {
         }
     };
 
+
+
+
+    
+
     return (
         <>
+            <Nav />
             <section className="h-110 h-custom">
                 <div className="container h-100 py-5" style={{ marginTop: '30px' }}>
                     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -281,12 +284,29 @@ const ShoppingCart = () => {
                                             </div>
                                         </div>
                                         <div className="col-lg-4 col-xl-3">
+                                            <div className="mb-4">
+                                                <h5>Shipping Address</h5>
+                                                <div className="form-outline mb-4">
+                                                    <input
+                                                        type="text"
+                                                        id="address"
+                                                        className="form-control form-control-lg"
+                                                        value={shippingAddress}
+                                                        onChange={handleAddressChange}
+                                                        placeholder="Enter your address"
+                                                    />
+                                                    <label className="form-label" htmlFor="address">
+                                                        Address
+                                                    </label>
+                                                </div>
+                                                {/* You can add additional address fields like city, postal code, etc. here */}
+                                            </div>
                                             <div className="d-flex justify-content-between" style={{ fontWeight: 500 }}>
                                                 <p className="mb-2">Subtotal</p>
                                                 <p className="mb-2">{calculatedSubtotal}</p>
                                             </div>
                                             <div className="d-flex justify-content-between" style={{ fontWeight: 500 }}>
-                                                <p className="mb-2"> free servie</p>
+                                                <p className="mb-2">Free service</p>
                                                 <p className="mb-2">4.99</p>
                                             </div>
                                             <div className="d-flex justify-content-between" style={{ fontWeight: 500 }}>

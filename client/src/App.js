@@ -26,7 +26,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Home />} path="/" />
-
           <Route element={<About />} path="/About" />
           <Route element={<Contactus />} path="/Contactus" />
           <Route element={<Signup />} path="/Signup" />
@@ -43,7 +42,8 @@ function App() {
             element={<Industrialtraining />}
             path="/Industrialtraining"
           />
-          <Route element={<ShoppingCart />} path="/ShoppingCart" />
+
+          <Route element={<ShoppingCart />} path="Electricalproducts/ShoppingCart"/>
           <Route element={<Checkout />} path="/Checkout" />
           <Route element={<Providerproduct />} path="/Providerhome/Providerproduct" />
           <Route element={<Providerservice />} path="/Providerhome/Providerservice" />

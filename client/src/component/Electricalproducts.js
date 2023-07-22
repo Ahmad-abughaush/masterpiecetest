@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Nav from './layout/Nav';
 
 const ElectricalProducts = () => {
   const [data, setData] = useState([]);
@@ -59,6 +60,7 @@ const items= localStorage.getItem('cartProducts')
 
   return (
     <>
+    <Nav/>
       <section className="h-100 h-custom bg-white mt-5">
         <div className="container py-5">
           <div className="row d-flex justify-content-center align-items-center h-100">
