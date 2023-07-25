@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink , useNavigate } from 'react-router-dom';
 import './Nav.css';
 import { BsPersonCircle } from 'react-icons/bs';
 import { FaShoppingCart } from 'react-icons/fa';
 
 
 export default function Nav() {
+
     const [cartItems, setCartItems] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate=useNavigate()
 
     // Function to remove an item from the cart
     const removeFromCart = (index) => {
@@ -24,8 +26,10 @@ export default function Nav() {
 
     const handleLogout = () => {
         // Remove the token from local storage
+        
         localStorage.removeItem('token');
         setIsLoggedIn(false);
+        navigate('Login')
     };
 
     return (
@@ -127,7 +131,6 @@ export default function Nav() {
                                             }}
                                         />
                                     </Link>
-
                                     <button
                                         id="signinbut"
                                         className="btn btn-secondary bs-btn-hover-color:rgb(9, 88, 178);"
@@ -141,8 +144,8 @@ export default function Nav() {
                                         onClick={handleLogout}
                                     >
                                         Logout
-                                    </button>
 
+                                    </button>
                                 </>
 
                             ) : (
@@ -164,7 +167,7 @@ export default function Nav() {
                         </div>
                     </div>
                 </nav>
-            </header>
+            </header >
         </>
     );
 }

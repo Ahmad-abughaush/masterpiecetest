@@ -1,5 +1,6 @@
 const Item = require("../models/itemmodel");
 const Order = require("../models/ordermodel");
+const User = require("../models/usermodel");
 const errorHandler = require("../middleware/500");
 const newOrder = async (req, res) => {
     try {
@@ -24,26 +25,20 @@ const newOrder = async (req, res) => {
         errorHandler(e, req, res);
     }
 };
+const getOrdersByUserId = async (req, res) => {
+    const userId = req.params.userId;
 
-// const allorders = async (req, res) => {
-//     try {
-//         const orders = await Order.find(req.query);
-//         const result = await Promise.all(
-//             orders.map(async (order) => {
-//                 const order = await Order.findById(user.user_id);
-//                 return {
-//                     user,
-//                     order,
-//                 };
-//             })
-//         );
-//         return res.json(result);
-//     } catch (e) {
-//         return errorHandler(e, req, res);
-//     }
-// };
+    try {
+        const orders = await Order.find({ user_id: userId });
+        res.json(orders);
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 
 module.exports = {
-    // allorders,
+    getOrdersByUserId,
     newOrder,
 };

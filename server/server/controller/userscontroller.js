@@ -63,8 +63,67 @@ const login = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+const oneUser = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.json(user);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error fetching user', error: error.message });
+    }
+};
+
+const updateUser = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const body = req.body;
+
+        const fillable = [
+            'username',
+            'email',
+            'password',
+            'phone'
+        ];
+
+        const data = {};
+
+        fillable.forEach(field => {
+            if (body[field]) {
+                data[field] = body[field];
+            }
+        });
+
+        if (Object.keys(data).length < 1) {
+            return res.json({ message: "Nothing to update" });
+        }
+
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, 10);
+        }
+
+        // Update the user in the database
+        const updatedUser = await User.findByIdAndUpdate(userId, data, { new: true });
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.json({ message: "User updated successfully", user: updatedUser });
+    } catch (e) {
+        return res.status(500).json({ message: "Error updating user", error: e.message });
+    }
+};
+
+
+
+
 
 module.exports = {
     signup,
-    login
+    login,
+    oneUser,
+    updateUser
 };

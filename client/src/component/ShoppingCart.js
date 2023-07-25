@@ -52,7 +52,7 @@ const ShoppingCart = () => {
         e.preventDefault();
         try {
             const order = {
-                user: { _id: 'user_id_here' }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
+                user: { _id:'64bbddc03e751f793f0b2532' }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
                 products: products,
                 calculatedTotal: calculatedTotal,
                 calculatedSubtotal: calculatedSubtotal,

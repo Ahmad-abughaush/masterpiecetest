@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 
 // app.use(adminRouts);
 
-app.use('/user' , userRouter);
+app.use(userRouter);
 app.use(provideRrouter);
 app.use(serviceRouter);
 app.use(itemRouter);

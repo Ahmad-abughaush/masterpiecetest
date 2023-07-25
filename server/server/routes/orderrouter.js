@@ -5,7 +5,7 @@ const orderController = require("../controller/ordercontroller")
 
 
 router.post('/neworder', orderController.newOrder )
-// router.get("/allorders", orderController.allorders)
+router.get('/orders/:userId', orderController.getOrdersByUserId);
 
 
 module.exports = router;

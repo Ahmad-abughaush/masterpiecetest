@@ -17,6 +17,7 @@ import Checkout from './component/Checkout';
 import { Providerproduct } from './component/Providerproduct';
 import { Providerservice } from './component/Providerservice';
 import Providerhome from './component/Providerhome';
+import Profile from './component/Profile';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,6 +49,8 @@ function App() {
           <Route element={<Providerproduct />} path="/Providerhome/Providerproduct" />
           <Route element={<Providerservice />} path="/Providerhome/Providerservice" />
           <Route element={<Providerhome />} path="/Providerhome" />
+          <Route element={<Profile />} path="/Profile" />
+
         </Routes>
         <Footer />
       </BrowserRouter>
