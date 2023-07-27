@@ -116,7 +116,6 @@ export default function Nav() {
                             </div>
 
                             {isLoggedIn ? (
-
                                 <>
                                     <Link
                                         to="Profile"

@@ -4,13 +4,21 @@ import axios from 'axios';
 import "../css/ShoppingCart.css"
 import Nav from './layout/Nav';
 
+
 const ShoppingCart = () => {
     const [products, setProducts] = useState([]);
     const [shippingAddress, setShippingAddress] = useState('');
     const [calculatedSubtotal, setCalculatedSubtotal] = useState('');
     const [calculatedTotal, setCalculatedTotal] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    }, []);
 
     useEffect(() => {
         const cartData = localStorage.getItem('cartProducts');
@@ -47,30 +55,30 @@ const ShoppingCart = () => {
     const handleAddressChange = (e) => {
         setShippingAddress(e.target.value);
     };
-
     const handlePurchase = async (e) => {
-        e.preventDefault();
-        try {
-            const order = {
-                user: { _id:'64bbddc03e751f793f0b2532' }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
-                products: products,
-                calculatedTotal: calculatedTotal,
-                calculatedSubtotal: calculatedSubtotal,
-                shippingAddress: shippingAddress,
-            };
+        if (isLoggedIn) {
+            e.preventDefault();
+            try {
+                const order = {
+                    user: { _id: '64bbddc03e751f793f0b2532' }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
+                    products: products,
+                    calculatedTotal: calculatedTotal,
+                    calculatedSubtotal: calculatedSubtotal,
+                    shippingAddress: shippingAddress,
+                };
 
-            const response = await axios.post('http://localhost:5000/neworder', order);
-            console.log(response);
-            window.location = '/';
-        } catch (err) {
-            console.error(err.message);
+                const response = await axios.post('http://localhost:5000/neworder', order);
+                console.log(response);
+                localStorage.removeItem('cartProducts');
+                window.location = '/';
+            } catch (err) {
+                console.error(err.message);
+            }
+        } else {
+            window.location = '/Login'; 
         }
     };
 
-
-
-
-    
 
     return (
         <>
