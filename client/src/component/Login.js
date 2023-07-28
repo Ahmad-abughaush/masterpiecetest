@@ -19,22 +19,38 @@ export default function Login() {
                 email,
                 password,
             });
+            console.log('Response:', response.data); // Check the response data in the console
 
-            // Assuming the server returns a token upon successful login
-            const token = response.data.token;
+
+            // Assuming the server returns a token and role upon successful login
+            const { token, role, email: userEmail } = response.data;
+
+            console.log('Response:', response.data); // Check the response data in the console
+
             localStorage.setItem('token', token);
+            console.log('User Email:', userEmail); // Check the value of userEmail
+            localStorage.setItem('email', userEmail); // <-- Fix is here
 
             // Perform any necessary actions with the token (e.g., store it in local storage, set it in the global state, etc.)
-
-            // Redirect the user to the desired route (e.g., home page)
-            navigate('/');
+            if (role === 'user') {
+                navigate('/');
+            } else if (role === 'provider') {
+                navigate('/Providerhome');
+            } else {
+                // Handle other roles or unsupported roles
+                console.log('Unsupported role:', role);
+            }
         } catch (error) {
             // Handle error response from the server (e.g., display error message to the user)
             console.error(error);
         }
     };
 
+
+
+
     return (
+
         <div>
 
             <>

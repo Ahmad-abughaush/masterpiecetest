@@ -10,7 +10,7 @@ const signup = async (req, res) => {
         const { username, email, password, phone, role } = req.body;
 
         const existingUser = await User.findOne({ email });
-
+        
         if (existingUser) {
             return res.status(401).send('User already exists. Please log in.');
         }
@@ -57,12 +57,16 @@ const login = async (req, res) => {
 
         const token = jwtGenerator(user);
 
-        res.json({ token });
+        // Include the role in the response
+        res.json({ token, role: user.role });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
 };
+
+
+
 const oneUser = async (req, res) => {
     const userId = req.params.id;
     try {

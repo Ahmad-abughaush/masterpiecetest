@@ -1,6 +1,7 @@
 const Item = require("../models/itemmodel");
-const Provider = require("../models/providermodel");
+// const Provider = require("../models/providermodel");
 const errorHandler = require("../middleware/500");
+const User = require("../models/usermodel");
 
 const newItem = async (req, res) => {
 const file = req.file.path
@@ -45,7 +46,6 @@ const image = `http://localhost:5000/${file}`
         description: formData.Description,
         price: parseInt(formData.Price),
         quantity: parseInt(formData.Quantity),
-        provider_id: req.user._id
     });
 
     const item = await newItem.save();
@@ -61,9 +61,9 @@ const allItems = async (req, res) => {
 
         const items = await Item.find(req.query);
         const result = await Promise.all(items.map(async (item) => {
-            const provider = await Provider.findById(item.provider_id);
+            // const user = await User.findById(item.user_id);
             return {
-                provider,
+                // user,
                 item
             }
         }))
@@ -80,9 +80,9 @@ const oneItemById = async (req, res) => {
         if (!item) {
             return res.status(404).json({message: 'item not found'})
         }
-        const provider = await Provider.findById(item.provider_id);
+        const user = await User.findById(item.provider_id);
         return res.json({
-            provider,
+            user,
             item
         });
     } catch (e) {

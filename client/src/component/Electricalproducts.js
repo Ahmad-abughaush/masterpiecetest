@@ -60,8 +60,8 @@ const ElectricalProducts = () => {
   return (
     <>
       <Nav />
-      <section className="h-100 h-custom bg-white">
-        <div className="container py-5">
+      <section className="h-100 h-custom bg-white ">
+        <div className="container py-5 " style={{marginTop:'5%'}}>
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col">
               <div className="row mb-4">

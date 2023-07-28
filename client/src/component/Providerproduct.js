@@ -15,7 +15,7 @@ export const Providerproduct = () => {
         setFile(e.target.files[0]);
     };
     const onSubmitForm = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         try {
             const formData = new FormData();
             formData.append('images', file);
@@ -40,7 +40,7 @@ export const Providerproduct = () => {
             setFile('');
             setDescription('');
 
-            window.location = '/';
+            // window.location = '/';
         }
         catch (err) {
             console.error(err.message);

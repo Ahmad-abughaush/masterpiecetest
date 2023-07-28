@@ -26,6 +26,9 @@ router.post("/newitems",upload.single("images"),itemController.newItem
 
 router.get("/items", itemController.allItems);
 
+router.get("/items", itemController.allItems);
+
+
 router.get("/items/:id", itemController.oneItemById);
 
 router.put("/items/:id", auth, itemController.updateItem);

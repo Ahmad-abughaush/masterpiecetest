@@ -1,11 +1,12 @@
+// Signup.js
 import React, { useState } from 'react';
-
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+// import { useUser } from './UserContext'; // Replace with the correct path to your UserContext file
 import { BsFillPersonFill } from 'react-icons/bs';
 import { BsFillEnvelopeFill } from 'react-icons/bs';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsTelephoneFill } from 'react-icons/bs';
-import axios from 'axios';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -27,20 +28,20 @@ export default function Signup() {
         role,
       });
 
-      // Assuming the server returns a token upon successful signup
-      const token = response.data.token;
-      localStorage.setItem('token', token);
 
-      // Perform any necessary actions with the token (e.g., store it in local storage, set it in the global state, etc.)
+// Assuming the server returns a user ID upon successful signup
+      
+      const { token, _Id } = response.data;
+      // Set the user ID in the context
+      localStorage.setItem('token', token);
+      localStorage.setItem('userId', _Id);
 
       // Redirect the user to a success page or any other desired route
 
       if (role === 'user') {
         navigate('/');
-      }
-      else if (role === 'provider') {
-        navigate('/Providerhome')
-
+      } else if (role === 'provider') {
+        navigate('/Providerhome');
       }
     } catch (error) {
       // Handle error response from the server (e.g., display error message to the user)
