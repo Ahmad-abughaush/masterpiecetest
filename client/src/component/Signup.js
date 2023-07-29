@@ -2,11 +2,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import { useUser } from './UserContext'; // Replace with the correct path to your UserContext file
 import { BsFillPersonFill } from 'react-icons/bs';
 import { BsFillEnvelopeFill } from 'react-icons/bs';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsTelephoneFill } from 'react-icons/bs';
+import jwtDecode from 'jwt-decode'; // Import the jwt-decode library
+
+
+
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -28,16 +31,18 @@ export default function Signup() {
         role,
       });
 
-
-// Assuming the server returns a user ID upon successful signup
-      
-      const { token, _Id } = response.data;
-      // Set the user ID in the context
+      const { token } = response.data;
+      // Set the token in localStorage
       localStorage.setItem('token', token);
-      localStorage.setItem('userId', _Id);
+
+      // Decode the token to extract userId
+      const decodedToken = jwtDecode(token);
+      const user_id = decodedToken.user_id; // Assuming the payload has "userId" property
+
+      // Save the userId in localStorage (if needed)
+      localStorage.setItem('userId', user_id);
 
       // Redirect the user to a success page or any other desired route
-
       if (role === 'user') {
         navigate('/');
       } else if (role === 'provider') {

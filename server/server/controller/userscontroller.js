@@ -10,7 +10,7 @@ const signup = async (req, res) => {
         const { username, email, password, phone, role } = req.body;
 
         const existingUser = await User.findOne({ email });
-        
+
         if (existingUser) {
             return res.status(401).send('User already exists. Please log in.');
         }
@@ -22,6 +22,7 @@ const signup = async (req, res) => {
             phone,
             role,
         });
+        const user = await User.findOne({ email });
 
         const hashedPassword = await bcrypt.hash(password, 10);
         newUser.password = hashedPassword;
@@ -30,7 +31,9 @@ const signup = async (req, res) => {
 
         const token = jwtGenerator(newUser);
 
-        res.json({ token });
+        res.json({
+            token, 
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -58,7 +61,9 @@ const login = async (req, res) => {
         const token = jwtGenerator(user);
 
         // Include the role in the response
-        res.json({ token, role: user.role });
+        res.json({
+            token, role: user.role, user_id: user._id,
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

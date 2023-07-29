@@ -1,22 +1,43 @@
 import React, { useState } from 'react';
-import "../css/Providerproductpage.css";
-import backgroundimg from "./img/بكبس-transformed.jpeg";
+import '../css/Providerproductpage.css';
+import backgroundimg from './img/بكبس-transformed.jpeg';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 export const Providerproduct = () => {
     const [productNAME, setProductname] = useState('');
     const [companyName, setCompanyname] = useState('');
     const [Price, setPrice] = useState('');
     const [Quantity, setQuantity] = useState('');
-    const [file, setFile] = useState('');
+    const [file, setFile] = useState(null);
     const [Description, setDescription] = useState('');
+    const [userId, setUserId] = useState('');
 
     const handleFileUpload = (e) => {
-        setFile(e.target.files[0]);
+        const uploadedFile = e.target.files[0];
+        setFile(uploadedFile);
     };
+
     const onSubmitForm = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
+
+        // Check if file is provided
+        if (!file) {
+            console.error('Please select a file to upload.');
+            return;
+        }
+
         try {
+            // Retrieve the token from localStorage
+            const token = localStorage.getItem('token');
+
+            // Decode the token to get the payload
+            const decodedToken = jwtDecode(token);
+
+            // Access the user_id from the decoded token
+            const user_id = decodedToken.user_id;
+            setUserId(user_id);
+
             const formData = new FormData();
             formData.append('images', file);
             formData.append('productNAME', productNAME);
@@ -24,28 +45,33 @@ export const Providerproduct = () => {
             formData.append('Price', Price);
             formData.append('Quantity', Quantity);
             formData.append('Description', Description);
+            formData.append('userId', userId);
 
-            const response = await axios.post('http://localhost:5000/newitems', formData,
-            ).then(res => {
-                // console.log(res)
-            }).catch(err => console.log(err))
-            console.log(formData)
+            const response = await axios.post('http://localhost:5000/newitems', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
 
+            console.log(response.data);
 
-            // Clear input fields after submitting
+            // Clear input fields after successful submission
             setProductname('');
             setCompanyname('');
             setPrice('');
             setQuantity('');
-            setFile('');
+            setFile(null);
             setDescription('');
 
+            // Redirect to a specific page after successful submission
+            // You should use React Router for navigation if applicable
+            
             // window.location = '/';
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err.message);
         }
     };
+
 
     return (
         <div>

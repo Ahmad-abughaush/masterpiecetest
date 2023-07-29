@@ -4,48 +4,49 @@ const errorHandler = require("../middleware/500");
 const User = require("../models/usermodel");
 
 const newItem = async (req, res) => {
-const file = req.file.path
-const formData = req.body;
+    const file = req.file.path
+    const formData = req.body;
 
     if (!file) {
-        return res.status(422).json({error: "please upload image"})
+        return res.status(422).json({ error: "please upload image" })
     }
     if (file.error) {
-        return res.status(422).json({error: file.error})
+        return res.status(422).json({ error: file.error })
     }
 
 
     if (!formData.productNAME) {
-        return res.status(422).json({error: "itemName is required"})
+        return res.status(422).json({ error: "itemName is required" })
     }
 
     if (!formData.Description) {
-        return res.status(422).json({error: "description is required"})
+        return res.status(422).json({ error: "description is required" })
     }
 
     if (!formData.Price) {
-        return res.status(422).json({error: "price is required"})
+        return res.status(422).json({ error: "price is required" })
     }
 
     if (isNaN(parseInt(formData.Price))) {
-        return res.status(422).json({error: "price have to be number"})
+        return res.status(422).json({ error: "price have to be number" })
     }
 
     if (!formData.Quantity) {
-        return res.status(422).json({error: "quantity is required"})
+        return res.status(422).json({ error: "quantity is required" })
     }
 
     if (isNaN(parseInt(formData.Quantity))) {
-        return res.status(422).json({error: "quantity have to be number"})
+        return res.status(422).json({ error: "quantity have to be number" })
     }
-const image = `http://localhost:5000/${file}`
+    const image = `http://localhost:5000/${file}`
     const newItem = new Item({
-        attachments:image ,
+        attachments: image,
         itemName: formData.productNAME,
-        companyname:formData.companyName,
+        companyname: formData.companyName,
         description: formData.Description,
         price: parseInt(formData.Price),
         quantity: parseInt(formData.Quantity),
+        user_id:  formData.userId
     });
 
     const item = await newItem.save();
@@ -56,9 +57,8 @@ const image = `http://localhost:5000/${file}`
 const allItems = async (req, res) => {
     try {
         if (req.query.itemName) {
-            req.query.itemName = {$regex: '.*' + req.query.itemName + '.*'}
+            req.query.itemName = { $regex: '.*' + req.query.itemName + '.*' }
         }
-
         const items = await Item.find(req.query);
         const result = await Promise.all(items.map(async (item) => {
             // const user = await User.findById(item.user_id);
@@ -78,7 +78,7 @@ const oneItemById = async (req, res) => {
         const id = req.params.id;
         const item = await Item.findById(id);
         if (!item) {
-            return res.status(404).json({message: 'item not found'})
+            return res.status(404).json({ message: 'item not found' })
         }
         const user = await User.findById(item.provider_id);
         return res.json({
@@ -98,11 +98,11 @@ const updateItem = async (req, res) => {
     const item = await Item.findById(id);
 
     if (!item) {
-        return res.status(404).json({error: 'items not found'});
+        return res.status(404).json({ error: 'items not found' });
     }
 
     if (item.provider_id !== req.user._id.toString()) {
-        return res.status(422).json({error: 'items dose not belong to user'});
+        return res.status(422).json({ error: 'items dose not belong to user' });
     }
 
     const fillable = [
@@ -115,10 +115,10 @@ const updateItem = async (req, res) => {
     const updateData = {}
 
     fillable.forEach(function (filterItem) {
-            if (data[filterItem]) {
-                updateData[filterItem] = data[filterItem];
-            }
+        if (data[filterItem]) {
+            updateData[filterItem] = data[filterItem];
         }
+    }
     );
     updateData.updated_at = Date.now();
     const updatedItem = await Item.findByIdAndUpdate(id, updateData);
@@ -132,16 +132,16 @@ const deleteItem = async (req, res) => {
         const id = req.params.id;
         const item = await Item.findById(id);
         if (!item) {
-            return res.status(404).json({error: 'items not found'});
+            return res.status(404).json({ error: 'items not found' });
         }
         if (item.provider_id !== req.user._id.toString()) {
-            return res.status(422).json({error: 'items dose not belong to user'});
+            return res.status(422).json({ error: 'items dose not belong to user' });
         }
         const deletedItem = await Item.findByIdAndRemove(id);
-        return res.status(200).json({message: 'item deleted successfully', removedItem: deletedItem});
+        return res.status(200).json({ message: 'item deleted successfully', removedItem: deletedItem });
     } catch (error) {
         console.log(error)
-        return res.status(500).json({error: 'Failed to remove Item'});
+        return res.status(500).json({ error: 'Failed to remove Item' });
     }
 };
 

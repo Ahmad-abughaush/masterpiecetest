@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    // user_id: {
-    //     type: String,
-    //     // required: true,
-    // },
+    user_id: {
+        type: String,
+        required: true,
+    },
     companyname: {
         type: String,
         required: true
