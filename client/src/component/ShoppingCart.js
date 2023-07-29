@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../css/ShoppingCart.css"
 import Nav from './layout/Nav';
+import jwtDecode from 'jwt-decode';
+
 
 
 const ShoppingCart = () => {
@@ -11,6 +13,7 @@ const ShoppingCart = () => {
     const [calculatedSubtotal, setCalculatedSubtotal] = useState('');
     const [calculatedTotal, setCalculatedTotal] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userId, setUserId] = useState('');
 
 
     const navigate = useNavigate();
@@ -18,6 +21,13 @@ const ShoppingCart = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
+
+        // Decode the token to get the payload
+        const decodedToken = jwtDecode(token);
+
+        // Access the user_id from the decoded token
+        const user_id = decodedToken.user_id;
+        setUserId(user_id);
     }, []);
 
     useEffect(() => {
@@ -60,7 +70,7 @@ const ShoppingCart = () => {
             e.preventDefault();
             try {
                 const order = {
-                    user: { _id: '64bbddc03e751f793f0b2532' }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
+                    user: { _id: userId }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
                     products: products,
                     calculatedTotal: calculatedTotal,
                     calculatedSubtotal: calculatedSubtotal,

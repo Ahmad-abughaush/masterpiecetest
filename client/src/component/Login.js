@@ -23,13 +23,11 @@ export default function Login() {
 
 
             // Assuming the server returns a token and role upon successful login
-            const { token, role, email: userEmail } = response.data;
+            const { token, role } = response.data;
 
             console.log('Response:', response.data); // Check the response data in the console
 
             localStorage.setItem('token', token);
-            console.log('User Email:', userEmail); // Check the value of userEmail
-            localStorage.setItem('email', userEmail); // <-- Fix is here
 
             // Perform any necessary actions with the token (e.g., store it in local storage, set it in the global state, etc.)
             if (role === 'user') {

@@ -35,12 +35,7 @@ export default function Signup() {
       // Set the token in localStorage
       localStorage.setItem('token', token);
 
-      // Decode the token to extract userId
-      const decodedToken = jwtDecode(token);
-      const user_id = decodedToken.user_id; // Assuming the payload has "userId" property
 
-      // Save the userId in localStorage (if needed)
-      localStorage.setItem('userId', user_id);
 
       // Redirect the user to a success page or any other desired route
       if (role === 'user') {
