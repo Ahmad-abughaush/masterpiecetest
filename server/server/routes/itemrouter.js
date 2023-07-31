@@ -26,7 +26,7 @@ router.post("/newitems",upload.single("images"),itemController.newItem
 
 router.get("/items", itemController.allItems);
 
-router.get("/items", itemController.allItems);
+router.get('/items/:userId', itemController.getAllItemsByUserId);
 
 router.get("/items/:id", itemController.oneItemById);
 

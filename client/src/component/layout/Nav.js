@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink , useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Nav.css';
 import { BsPersonCircle } from 'react-icons/bs';
 import { FaShoppingCart } from 'react-icons/fa';
-
+import jwtDecode from 'jwt-decode';
 
 export default function Nav() {
-
     const [cartItems, setCartItems] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const navigate=useNavigate()
+    const [userRole, setUserRole] = useState(''); // Fix: Changed setUserrole to setUserRole
+    const navigate = useNavigate();
 
     // Function to remove an item from the cart
     const removeFromCart = (index) => {
@@ -22,14 +22,17 @@ export default function Nav() {
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUserRole(decodedToken.role); // Fix: Set the userRole based on the decoded token
+        }
     }, []);
 
     const handleLogout = () => {
         // Remove the token from local storage
-        
         localStorage.removeItem('token');
         setIsLoggedIn(false);
-        navigate('Login')
+        navigate('/Login'); // Fix: Corrected the route to "/Login"
     };
 
     return (
@@ -58,15 +61,25 @@ export default function Nav() {
                                 className="navbar-nav me-auto mb-2 mb-lg-0"
                                 style={{ paddingLeft: 30 }}
                             >
+
                                 <li className="nav-item">
-                                    <Link
-                                        to="/"
-                                        className="nav-link"
-                                        style={{ fontSize: 'larger', color: 'black' }}
-                                        href="#homebg"
-                                    >
-                                        Home
-                                    </Link>
+                                    {userRole === "user" ? (
+                                        <Link
+                                            to="/"
+                                            className="nav-link"
+                                            style={{ fontSize: 'larger', color: 'black' }}
+                                        >
+                                            Home
+                                        </Link>
+                                    ) : (
+                                        <Link
+                                            to="/Providerhome"
+                                            className="nav-link"
+                                            style={{ fontSize: 'larger', color: 'black' }}
+                                        >
+                                            Home
+                                        </Link>
+                                    )}
                                 </li>
                                 <li className="nav-item">
                                     <a
@@ -99,7 +112,7 @@ export default function Nav() {
 
                             <div style={{ marginRight: '30px' }}>
                                 <Link
-                                    to="ShoppingCart"
+                                    to="/ShoppingCart"
                                     style={{ textDecoration: 'none', listStyle: 'none' }}
                                 >
                                     <FaShoppingCart
@@ -118,7 +131,7 @@ export default function Nav() {
                             {isLoggedIn ? (
                                 <>
                                     <Link
-                                        to="Profile"
+                                        to="/Profile"
                                         style={{ textDecoration: 'none', listStyle: 'none' }}
                                     >
                                         < BsPersonCircle
@@ -130,6 +143,7 @@ export default function Nav() {
                                             }}
                                         />
                                     </Link>
+
                                     <button
                                         id="signinbut"
                                         className="btn btn-secondary bs-btn-hover-color:rgb(9, 88, 178);"
@@ -149,7 +163,7 @@ export default function Nav() {
 
                             ) : (
                                 <Link
-                                    to="./Signup"
+                                    to="/Signup"
                                     id="signinbut"
                                     className="btn btn-secondary bs-btn-hover-color:rgb(9, 88, 178);"
                                     target="_blank"

@@ -18,7 +18,6 @@ import { Providerproduct } from './component/Providerproduct';
 import { Providerservice } from './component/Providerservice';
 import Providerhome from './component/Providerhome';
 import Profile from './component/Profile';
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -31,29 +30,23 @@ function App() {
           <Route element={<Contactus />} path="/Contactus" />
           <Route element={<Signup />} path="/Signup" />
           <Route element={<Login />} path="/Login" />
-          <Route
-            element={<Electricalproducts />}
-            path="/Electricalproducts"
-          />
-          <Route
-            element={<Electricalservices />}
-            path="/Electricalservices"
-          />
-          <Route
-            element={<Industrialtraining />}
-            path="/Industrialtraining"
-          />
+          <Route element={<Electricalproducts />} path="/Electricalproducts" />
+          <Route element={<Electricalservices />} path="/Electricalservices" />
+          <Route element={<Industrialtraining />} path="/Industrialtraining" />
 
-          <Route element={<ShoppingCart />} path="Electricalproducts/ShoppingCart"/>
-          <Route element={<Checkout />} path="/Checkout" />
+          <Route element={<ShoppingCart />} path="/ShoppingCart" />
+
+          {/* Providerproduct and Providerservice are nested under Providerhome */}
           <Route element={<Providerproduct />} path="/Providerhome/Providerproduct" />
           <Route element={<Providerservice />} path="/Providerhome/Providerservice" />
           <Route element={<Providerhome />} path="/Providerhome" />
           <Route element={<Profile />} path="/Profile" />
 
         </Routes>
+
         <Footer />
       </BrowserRouter>
+
     </div>
   );
 }

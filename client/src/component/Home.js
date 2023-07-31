@@ -72,7 +72,7 @@ export default function Home() {
 
                     <div className="card-deck" id='card-deck-hp'>
 
-                        <Link to="./Electricalproducts">
+                        <Link to="/Electricalproducts">
                             <div className="card" id='card-hp'>
                                 <img
                                     className="card-img-top"id='card-img-top-hp'
@@ -89,7 +89,7 @@ export default function Home() {
                             </div>
                         </Link>
 
-                        <Link to="./Electricalservices">
+                        <Link to="/Electricalservices">
                             <div className="card"  id='card-hp'>
                                 <img
                                     className="card-img-top"id='card-img-top-hp'
@@ -105,7 +105,7 @@ export default function Home() {
                             </div>
                         </Link>
 
-                        <Link to="./Industrialtraining">
+                        <Link to="/Industrialtraining">
                             <div className="card" id='card-hp'>
                                 <img
                                     className="card-img-top" id='card-img-top-hp'

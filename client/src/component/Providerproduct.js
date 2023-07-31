@@ -66,7 +66,7 @@ export const Providerproduct = () => {
             // Redirect to a specific page after successful submission
             // You should use React Router for navigation if applicable
             
-            // window.location = '/';
+            window.location = '/';
         } catch (err) {
             console.error(err.message);
         }

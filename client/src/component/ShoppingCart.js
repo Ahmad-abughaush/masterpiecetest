@@ -5,30 +5,16 @@ import "../css/ShoppingCart.css"
 import Nav from './layout/Nav';
 import jwtDecode from 'jwt-decode';
 
-
-
 const ShoppingCart = () => {
     const [products, setProducts] = useState([]);
     const [shippingAddress, setShippingAddress] = useState('');
     const [calculatedSubtotal, setCalculatedSubtotal] = useState('');
     const [calculatedTotal, setCalculatedTotal] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token'));
     const [userId, setUserId] = useState('');
 
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-
-        // Decode the token to get the payload
-        const decodedToken = jwtDecode(token);
-
-        // Access the user_id from the decoded token
-        const user_id = decodedToken.user_id;
-        setUserId(user_id);
-    }, []);
 
     useEffect(() => {
         const cartData = localStorage.getItem('cartProducts');
@@ -67,6 +53,13 @@ const ShoppingCart = () => {
     };
     const handlePurchase = async (e) => {
         if (isLoggedIn) {
+            const token = localStorage.getItem('token');
+            setIsLoggedIn(token);
+            const decodedToken = jwtDecode(token);
+            // Access the user_id from the decoded token
+            const user_id = decodedToken.user_id;
+            setUserId(user_id);
+
             e.preventDefault();
             try {
                 const order = {
@@ -85,7 +78,8 @@ const ShoppingCart = () => {
                 console.error(err.message);
             }
         } else {
-            window.location = '/Login'; 
+            alert("you have to login first")
+            window.location = '/Login';
         }
     };
 

@@ -1,7 +1,7 @@
 const Item = require("../models/itemmodel");
-// const Provider = require("../models/providermodel");
 const errorHandler = require("../middleware/500");
-const User = require("../models/usermodel");
+const User = require('../models/usermodel'); // Adjust the path as needed
+
 
 const newItem = async (req, res) => {
     const file = req.file.path
@@ -61,9 +61,9 @@ const allItems = async (req, res) => {
         }
         const items = await Item.find(req.query);
         const result = await Promise.all(items.map(async (item) => {
-            // const user = await User.findById(item.user_id);
+            const user = await User.findById(item.user_id);
             return {
-                // user,
+                user,
                 item
             }
         }))
@@ -72,6 +72,21 @@ const allItems = async (req, res) => {
         return errorHandler(e, req, res);
     }
 };
+
+
+const getAllItemsByUserId = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const items = await Item.find({ user_id: userId });
+        res.json(items);
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+
 
 const oneItemById = async (req, res) => {
     try {
@@ -89,6 +104,10 @@ const oneItemById = async (req, res) => {
         return errorHandler(e, req, res);
     }
 }
+
+
+
+
 
 
 const updateItem = async (req, res) => {
@@ -152,4 +171,5 @@ module.exports = {
     newItem,
     updateItem,
     deleteItem,
+    getAllItemsByUserId
 }; 
