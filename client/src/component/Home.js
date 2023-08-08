@@ -6,7 +6,7 @@ import Nav from './layout/Nav';
 export default function Home() {
     return (
         <>
-        <Nav/>
+            <Nav />
             <div>
                 <section>
                     <div
@@ -57,6 +57,68 @@ export default function Home() {
                     <br />
                 </section>
 
+
+                <>
+                    {/* ======= What We Do Section ======= */}
+                    <section id="what-we-do" className="what-we-do">
+                        <div className="container">
+                            <div className="section-title">
+                                <h2>What We Do</h2>
+                                <p>Magnam dolores commodi suscipit consequatur ex aliquid</p>
+                            </div>
+                            <div className="row">
+                                <div className="col-lg-4 col-md-6 d-flex align-items-stretch">
+                                    <div className="icon-box">
+                                        <div className="icon">
+                                            <i className="bx bxl-dribbble" />
+                                        </div>
+                                        <h4>
+                                            <a href="">Lorem Ipsum</a>
+                                        </h4>
+                                        <p>
+                                            Voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                            excepturi
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                                    <div className="icon-box">
+                                        <div className="icon">
+                                            <i className="bx bx-file" />
+                                        </div>
+                                        <h4>
+                                            <a href="">Sed ut perspiciatis</a>
+                                        </h4>
+                                        <p>
+                                            Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                            cillum dolore
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                                    <div className="icon-box">
+                                        <div className="icon">
+                                            <i className="bx bx-tachometer" />
+                                        </div>
+                                        <h4>
+                                            <a href="">Magni Dolores</a>
+                                        </h4>
+                                        <p>
+                                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                            officia
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    {/* End What We Do Section */}
+                </>
+
+
+
+
+
                 <section>
                     <div id="services">
                         <h1 className="prohead" style={{ marginTop: '5rem' }}>
@@ -66,16 +128,12 @@ export default function Home() {
                         <br />
                         <br />
                     </div>
-
-
-
-
                     <div className="card-deck" id='card-deck-hp'>
 
                         <Link to="/Electricalproducts">
                             <div className="card" id='card-hp'>
                                 <img
-                                    className="card-img-top"id='card-img-top-hp'
+                                    className="card-img-top" id='card-img-top-hp'
                                     src="https://media.istockphoto.com/id/186856799/photo/electrician-at-work.jpg?s=612x612&w=0&k=20&c=WK0fJL_mFC_56GfsnYNsomuUJ2NlQD9Fvrw5JPafXPg="
                                     alt="Card cap"
                                 />
@@ -90,9 +148,9 @@ export default function Home() {
                         </Link>
 
                         <Link to="/Electricalservices">
-                            <div className="card"  id='card-hp'>
+                            <div className="card" id='card-hp'>
                                 <img
-                                    className="card-img-top"id='card-img-top-hp'
+                                    className="card-img-top" id='card-img-top-hp'
                                     src="https://img.freepik.com/free-photo/different-electrical-tools-wooden-background-flat-lay_169016-24825.jpg?w=996&t=st=1684613435~exp=1684614035~hmac=f1e76294600a00adcc767f97dc175f6caad9036f740d68ae310d27f273d30d99"
                                     alt="Card cap"
                                 />
@@ -122,6 +180,80 @@ export default function Home() {
                         </Link>
                     </div>
                 </section>
+
+                <div
+                    id="carouselExampleCaptions"
+                    className="carousel slide"
+                    data-bs-ride="carousel"
+                    style={{ marginTop: '200px' }}>
+                    <div className="carousel-indicators">
+                        <button
+                            type="button"
+                            data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide-to={0}
+                            className="active"
+                            aria-current="true"
+                            aria-label="Slide 1"
+                        />
+                        <button
+                            type="button"
+                            data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide-to={1}
+                            aria-label="Slide 2"
+                        />
+                        <button
+                            type="button"
+                            data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide-to={2}
+                            aria-label="Slide 3"
+                        />
+                    </div>
+                    <div className="carousel-inner" >
+                        <div className="carousel-item active">
+                            <img src="https://www.rendertechindia.com/images/banner/ac.jpg" className="d-block w-100" alt="..." style={{ height: '300px' }} />
+                            <div className="carousel-caption d-none d-md-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                                <h5>electrical morors </h5>
+                                <p >  A.E.S can help you handle nearly aspect of your electric motor needs to
+                                    get your business the capabilities it requires</p>
+                            </div>
+                        </div>
+
+                        <div className="carousel-item">
+                            <img src="https://www.frecon-inverter.com/static/upload/image/20230614/1686721645682546.jpg" className="d-block w-100" alt="..." style={{ height: '300px' }} />
+                            <div className="carousel-caption d-none d-md-block" id='sliderhomepage'>
+                                <h5>electrical products</h5>
+                                <p id='phomepage'>The high-performance electrical products seamlessly manages power distribution, ensuring reliable and efficient operation in industrial automation systems."</p>
+                            </div>
+                        </div>
+                        <div className="carousel-item">
+                            <img src="https://thegiantsgroup.co.za/wp-content/uploads/2018/08/close-up-hand-electrical-engineering-using-measuring-equipment-tool-to-checking-electricity-circuit-breaker-cable-wiring-214523687.jpg" className="d-block w-100" alt="..." style={{ height: '300px' }} />
+                            <div className="carousel-caption d-none d-md-block">
+                                <h5> electrical services</h5>
+                                <p>Our company specializes in providing comprehensive electrical services, ranging from installation and maintenance to troubleshooting, to meet the diverse needs of residential and commercial clients."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        className="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev"
+                    >
+                        <span className="carousel-control-prev-icon" aria-hidden="true" />
+                        <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                        className="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next"
+                    >
+                        <span className="carousel-control-next-icon" aria-hidden="true" />
+                        <span className="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+
             </div>
         </>
     );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Nav from './layout/Nav';
+import Footer from './layout/Footer';
 
 const ElectricalProducts = () => {
   const [data, setData] = useState([]);
@@ -61,7 +62,7 @@ const ElectricalProducts = () => {
     <>
       <Nav />
       <section className="h-100 h-custom bg-white ">
-        <div className="container py-5 " style={{marginTop:'5%'}}>
+        <div className="container py-5 " style={{ marginTop: '5%' }}>
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col">
               <div className="row mb-4">
@@ -78,20 +79,20 @@ const ElectricalProducts = () => {
               <div className="row">
                 {filteredData.map((item, index) => (
                   <div className="col-md-6 col-lg-4 mb-5" key={item._id}>
-                    <div className="card">
+                    <div className="card" style={{height:'500px'}}>
                       <img
                         src={item.attachments}
                         className="card-img-top"
                         alt={item.itemName}
                         style={{ height: '250px', objectFit: 'cover' }}
                       />
-                      <div className="card-body">
+                      <div className="card-body" style={{display:'flex',alignItems:'center',justifyContent:"center",flexDirection:'column'}}>
                         <h5 className="card-title">{item.itemName}</h5>
-                        <p className="card-text" >
+                        <p className="card-text" style={{ height: '100px', overflow: 'auto' }}>
                           {item.description}
                         </p>
-                        <h6 className="card-subtitle mb-2 text-muted">Price: JD {item.price}</h6>
-                        <h6 className="card-subtitle mb-2 text-muted">Company: {item.companyname}</h6>
+                        <h6 className="card-subtitle mb-2 text-muted" style={{textAlign:'center'}} >Price: JD {item.price}</h6>
+                        <h6 className="card-subtitle mb-2 text-muted"style={{textAlign:'center'}}>Company: {item.companyname}</h6>
                         <button
                           className="btn btn-primary"
                           onClick={() => handleAddToCart(item)}
@@ -103,10 +104,13 @@ const ElectricalProducts = () => {
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         </div>
       </section>
+
+      <Footer/>
     </>
   );
 };

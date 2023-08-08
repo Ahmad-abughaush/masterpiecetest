@@ -6,7 +6,7 @@ import Nav from './layout/Nav';
 export default function Providerhome() {
     return (
         <>
-        <Nav/>
+            <Nav />
             <div>
                 <section>
                     <div
@@ -122,6 +122,80 @@ export default function Providerhome() {
                         </Link>
                     </div>
                 </section>
+
+                <div
+                    id="carouselExampleCaptions"
+                    className="carousel slide"
+                    data-bs-ride="carousel"
+                    style={{ marginTop: '200px' }}>
+                    <div className="carousel-indicators">
+                        <button
+                            type="button"
+                            data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide-to={0}
+                            className="active"
+                            aria-current="true"
+                            aria-label="Slide 1"
+                        />
+                        <button
+                            type="button"
+                            data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide-to={1}
+                            aria-label="Slide 2"
+                        />
+                        <button
+                            type="button"
+                            data-bs-target="#carouselExampleCaptions"
+                            data-bs-slide-to={2}
+                            aria-label="Slide 3"
+                        />
+                    </div>
+                    <div className="carousel-inner" >
+                        <div className="carousel-item active">
+                            <img src="https://www.rendertechindia.com/images/banner/ac.jpg" className="d-block w-100" alt="..." style={{ height: '300px' }} />
+                            <div className="carousel-caption d-none d-md-block" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                                <h5>electrical morors </h5>
+                                <p >  A.E.S can help you handle nearly aspect of your electric motor needs to
+                                    get your business the capabilities it requires</p>
+                            </div>
+                        </div>
+
+                        <div className="carousel-item">
+                            <img src="https://www.frecon-inverter.com/static/upload/image/20230614/1686721645682546.jpg" className="d-block w-100" alt="..." style={{ height: '300px' }} />
+                            <div className="carousel-caption d-none d-md-block" id='sliderhomepage'>
+                                <h5>electrical products</h5>
+                                <p id='phomepage'>The high-performance electrical products seamlessly manages power distribution, ensuring reliable and efficient operation in industrial automation systems."</p>
+                            </div>
+                        </div>
+                        <div className="carousel-item">
+                            <img src="https://thegiantsgroup.co.za/wp-content/uploads/2018/08/close-up-hand-electrical-engineering-using-measuring-equipment-tool-to-checking-electricity-circuit-breaker-cable-wiring-214523687.jpg" className="d-block w-100" alt="..." style={{ height: '300px' }} />
+                            <div className="carousel-caption d-none d-md-block">
+                                <h5> electrical services</h5>
+                                <p>Our company specializes in providing comprehensive electrical services, ranging from installation and maintenance to troubleshooting, to meet the diverse needs of residential and commercial clients."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        className="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev"
+                    >
+                        <span className="carousel-control-prev-icon" aria-hidden="true" />
+                        <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                        className="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next"
+                    >
+                        <span className="carousel-control-next-icon" aria-hidden="true" />
+                        <span className="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+
             </div>
         </>
     );

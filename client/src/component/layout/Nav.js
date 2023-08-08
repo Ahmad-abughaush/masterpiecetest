@@ -63,7 +63,7 @@ export default function Nav() {
                             >
 
                                 <li className="nav-item">
-                                    {userRole === "user" ? (
+                                    {userRole === "user"  ? (
                                         <Link
                                             to="/"
                                             className="nav-link"
@@ -81,6 +81,7 @@ export default function Nav() {
                                         </Link>
                                     )}
                                 </li>
+
                                 <li className="nav-item">
                                     <a
                                         href="#services"
