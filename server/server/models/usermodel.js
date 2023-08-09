@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    //  approved:{
-    //     type:'boolean',
+    // approved: {
+    //     type: 'boolean',
     //     required: true
     // },
-    
+
     username: {
         type: String,
         required: true

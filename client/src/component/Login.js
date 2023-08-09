@@ -34,7 +34,11 @@ export default function Login() {
                 navigate('/');
             } else if (role === 'provider') {
                 navigate('/Providerhome');
-            } else {
+            }
+            else if(role === 'admin'){
+                navigate('Homedash');
+            }
+            else {
                 // Handle other roles or unsupported roles
                 console.log('Unsupported role:', role);
             }
