@@ -13,11 +13,13 @@ export const Providerproduct = () => {
     const [Description, setDescription] = useState('');
     const [userId, setUserId] = useState('');
 
+
+
+
     const handleFileUpload = (e) => {
         const uploadedFile = e.target.files[0];
         setFile(uploadedFile);
     };
-
     const onSubmitForm = async (e) => {
         e.preventDefault();
 
@@ -30,47 +32,52 @@ export const Providerproduct = () => {
         try {
             // Retrieve the token from localStorage
             const token = localStorage.getItem('token');
-
             // Decode the token to get the payload
             const decodedToken = jwtDecode(token);
-
             // Access the user_id from the decoded token
-            const user_id = decodedToken.user_id;
-            setUserId(user_id);
+            const userid = decodedToken.user_id;
+            setUserId(userid);
 
-            const formData = new FormData();
-            formData.append('images', file);
-            formData.append('productNAME', productNAME);
-            formData.append('companyName', companyName);
-            formData.append('Price', Price);
-            formData.append('Quantity', Quantity);
-            formData.append('Description', Description);
-            formData.append('userId', userId);
+            if (userid) {
+                const formData = new FormData();
+                formData.append('images', file);
+                formData.append('productNAME', productNAME);
+                formData.append('companyName', companyName);
+                formData.append('Price', Price);
+                formData.append('Quantity', Quantity);
+                formData.append('Description', Description);
+                formData.append('userId', userId);
 
-            const response = await axios.post('http://localhost:5000/newitems', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+                const response = await axios.post('http://localhost:5000/newitems', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
 
-            console.log(response.data);
+                console.log(response.data);
 
-            // Clear input fields after successful submission
-            setProductname('');
-            setCompanyname('');
-            setPrice('');
-            setQuantity('');
-            setFile(null);
-            setDescription('');
+                // Clear input fields after successful submission
+                setProductname('');
+                setCompanyname('');
+                setPrice('');
+                setQuantity('');
+                setFile(null);
+                setDescription('');
 
-            // Redirect to a specific page after successful submission
-            // You should use React Router for navigation if applicable
-            
-            window.location = '/';
+                // Redirect to a specific page after successful submission
+                // You should use React Router for navigation if applicable
+                // Example with react-router-dom:
+
+            window.location('/Providerhome');
+
+            } else {
+                console.error('User ID is not available.');
+            }
         } catch (err) {
             console.error(err.message);
         }
     };
+
 
 
     return (

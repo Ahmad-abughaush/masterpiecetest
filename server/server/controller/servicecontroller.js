@@ -1,39 +1,46 @@
-const Service = require("../models/servicemodel");
 const errorHandler = require("../middleware/500");
 const Provider = require("../models/providermodel");
-const Item = require("../models/itemmodel");
+const User = require('../models/usermodel'); // Adjust the path as needed
+const Service = require("../models/servicemodel");
 
 
 const newService = async (req, res) => {
-    const file = req.file.path
-    const formData = req.body;
+    try {
+        const file = req.file.path;
+        const formData = req.body;
 
-    if (!file) {
-        return res.status(422).json({ error: "please upload image" })
+        if (!file) {
+            return res.status(422).json({ error: "Please upload an image." });
+        }
+
+        if (!formData.Description) {
+            return res.status(422).json({ error: "Description is required." });
+        }
+
+        if (!formData.companyName) {
+            return res.status(422).json({ error: "Company name is required." });
+        }
+
+        if (!formData.Phonenumber || isNaN(parseInt(formData.Phonenumber))) {
+            return res.status(422).json({ error: "Valid phone number is required." });
+        }
+
+        const image = `http://localhost:5000/${file}`;
+        const newService = new Service({
+            user_id: formData.userId,
+            attachments: image,
+            companyname: formData.companyName,
+            description: formData.Description,
+            phone: parseInt(formData.Phonenumber),
+        });
+
+        const service = await newService.save();
+        res.status(201).json(service);
+        console.log(service)
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error." });
     }
-    if (file.error) {
-        return res.status(422).json({ error: file.error })
-    }
-
-    if (!formData.Description) {
-        return res.status(422).json({ error: "description is required" })
-
-    }
-    
-    if (!formData.companyName) {
-        return res.status(422).json({ error: "companyname is required" })}
-
-
-    const image = `http://localhost:5000/${file}`
-    const newService = new Service({
-        companyname: formData.companyName,
-        attachments: image,
-        description: formData.Description,
-        // provider_id: req.user._id.toString()
-    });
-    const service = await newService.save();
-    res.status(201).json(service);
-    console.log(service);}
+};
 
 
 
@@ -45,7 +52,7 @@ const allServices = async (req, res) => {
 
         const services = await Service.find(req.query)
         const result = await Promise.all(services.map(async (service) => {
-            const provider = await Provider.findById(service.provider_id);
+            const provider = await Provider.findById(service.user_id);
             return {
                 provider,
                 service

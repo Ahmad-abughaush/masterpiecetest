@@ -35,16 +35,12 @@ function App() {
           <Route element={<Electricalproducts />} path="/Electricalproducts" />
           <Route element={<Electricalservices />} path="/Electricalservices" />
           <Route element={<Industrialtraining />} path="/Industrialtraining" />
-
           <Route element={<ShoppingCart />} path="/ShoppingCart" />
-
           {/* Providerproduct and Providerservice are nested under Providerhome */}
           <Route element={<Providerproduct />} path="/Providerhome/Providerproduct" />
           <Route element={<Providerservice />} path="/Providerhome/Providerservice" />
           <Route element={<Providerhome />} path="/Providerhome" />
           <Route element={<Profile />} path="/Profile" />
-          <Route element={<Homedash />} path="/Homedash" />
-
 
         </Routes>
 

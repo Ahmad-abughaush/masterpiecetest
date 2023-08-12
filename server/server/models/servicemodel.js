@@ -8,14 +8,17 @@ const serviceSchema = new mongoose.Schema({
     companyname: {
         type: String,
         required: true
-    }
-    ,
+    },
     attachments: {
         type: String,
         required: true
     },
     description: {
         type: String,
+        required: true
+    },
+    phone: {
+        type: Number,
         required: true
     },
     created_at: {

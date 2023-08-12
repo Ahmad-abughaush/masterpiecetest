@@ -24,6 +24,7 @@ const upload = multer({ storage: storage });
 router.post("/newitems",upload.single("images"),itemController.newItem
 );
 
+
 router.get("/items", itemController.allItems);
 
 router.get('/items/:userId', itemController.getAllItemsByUserId);

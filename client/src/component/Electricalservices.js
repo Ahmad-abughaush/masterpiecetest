@@ -7,7 +7,6 @@ export default function Electricalservices() {
     const [searchTerm, setSearchTerm] = useState('');
     const [Services, setServices] = useState([]);
     const [storedServices, setStoredServices] = useState([]);
-
     const data1 = storedServices.map(({ service }) => {
         return service;
     });
@@ -43,6 +42,10 @@ export default function Electricalservices() {
         setSearchTerm(filterValue);
     };
 
+    const showPhoneNumber = (phoneNumber) => {
+        alert(`Call ${phoneNumber}`);
+    };
+
     const filteredData = data1.filter((service) =>
         service && service.description && service.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -67,10 +70,6 @@ export default function Electricalservices() {
                         <div className="row">
                             {filteredData.map((service, index) => {
                                 if (service && service.companyname) {
-
-
-
-
                                     return (
                                         <div className="col-md-6 col-lg-4 mb-5" key={service._id}>
                                             <div className="card">
@@ -81,10 +80,18 @@ export default function Electricalservices() {
                                                     style={{ height: '250px', objectFit: 'cover' }}
                                                 />
 
-                                                <div className="card-body">
+                                                <div className="card-body" style={{display:'flex',justifyContent:'center',alignItems:"center" ,flexDirection:"column"}}>
                                                     <h5 className="card-title">{service.companyname}</h5>
                                                     <p className="card-text">{service.description}</p>
-                                                    <button className="btn btn-primary">Call Us</button>
+                                                    <button
+                                                        className="btn btn-dark"
+                                                        onClick={() => showPhoneNumber(service.phone)}
+                                                    >
+                                                        <i className="fas fa-phone" style={{color:"white"}} ></i>''
+                                                    </button>
+                                                    <p id="phoneNumber" style={{ display: 'none' }}>
+                                                        Phone: <span id="phoneValue">{service.phone}</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ServiceController = require("../controller/servicecontroller");
+const ServiceController = require("../controller/servicecontroller"); 
 const auth = require('../middleware/verIfyJWT')
 const multer = require("multer");
 const path = require('path');
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-router.post("/newservices",upload.single("images"), ServiceController.newService);
+router.post("/newservices", upload.single("images"), ServiceController.newService);
 
 router.get("/services", ServiceController.allServices);
 

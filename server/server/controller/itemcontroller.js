@@ -2,43 +2,42 @@ const Item = require("../models/itemmodel");
 const errorHandler = require("../middleware/500");
 const User = require('../models/usermodel'); // Adjust the path as needed
 
-
 const newItem = async (req, res) => {
-    const file = req.file.path
+    const file = req.file.path;
     const formData = req.body;
 
     if (!file) {
-        return res.status(422).json({ error: "please upload image" })
+        return res.status(422).json({ error: "please upload image" });
     }
     if (file.error) {
-        return res.status(422).json({ error: file.error })
+        return res.status(422).json({ error: file.error });
     }
 
-
     if (!formData.productNAME) {
-        return res.status(422).json({ error: "itemName is required" })
+        return res.status(422).json({ error: "itemName is required" });
     }
 
     if (!formData.Description) {
-        return res.status(422).json({ error: "description is required" })
+        return res.status(422).json({ error: "description is required" });
     }
 
     if (!formData.Price) {
-        return res.status(422).json({ error: "price is required" })
+        return res.status(422).json({ error: "price is required" });
     }
 
     if (isNaN(parseInt(formData.Price))) {
-        return res.status(422).json({ error: "price have to be number" })
+        return res.status(422).json({ error: "price has to be a number" });
     }
 
     if (!formData.Quantity) {
-        return res.status(422).json({ error: "quantity is required" })
+        return res.status(422).json({ error: "quantity is required" });
     }
 
     if (isNaN(parseInt(formData.Quantity))) {
-        return res.status(422).json({ error: "quantity have to be number" })
+        return res.status(422).json({ error: "quantity has to be a number" });
     }
-    const image = `http://localhost:5000/${file}`
+
+    const image = `http://localhost:5000/${file}`;
     const newItem = new Item({
         attachments: image,
         itemName: formData.productNAME,
@@ -46,13 +45,23 @@ const newItem = async (req, res) => {
         description: formData.Description,
         price: parseInt(formData.Price),
         quantity: parseInt(formData.Quantity),
-        user_id:  formData.userId
+        user_id: formData.userId
     });
 
-    const item = await newItem.save();
-    res.status(201).json(item);
-    console.log(item);
+    try {
+        const item = await newItem.save();
+        res.status(201).json(item);
+        console.log(item);
+    } catch (error) {
+        // Handle the error
+        console.error(error);
+        res.status(500).json({ error: "Failed to create item" });
+    }
 };
+
+
+
+
 
 const allItems = async (req, res) => {
     try {

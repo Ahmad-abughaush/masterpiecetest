@@ -1,44 +1,73 @@
-import React from 'react'
-import "../css/Providerproductpage.css"
-import backgroundimg from "./img/بكبس-transformed.jpeg"
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import backgroundimg from "./img/بكبس-transformed.jpeg";
+import jwtDecode from 'jwt-decode';
 
+const FormInput = ({ label, type, placeholder, value, onChange, required }) => (
+    <div className="form-group">
+        <label htmlFor={label}>{label}</label>
+        <input
+            type={type}
+            id={label}
+            className="form-control"
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            required={required}
+        />
+    </div>
+);
 
 export const Providerservice = () => {
     const [companyName, setCompanyname] = useState('');
-    const [file, setFile] = useState('');
+    const [file, setFile] = useState(null);
     const [Description, setDescription] = useState('');
-
+    const [Phonenumber, setPhonenumber] = useState('');
+    const [userId, setUserId] = useState('');
 
     const handleFileUpload = (e) => {
-        setFile(e.target.files[0]);
+        const uploadedFile = e.target.files[0];
+        setFile(uploadedFile);
+        console.log(uploadedFile);
     };
+
     const onSubmitForm = async (e) => {
         e.preventDefault();
+
         try {
+            const token = localStorage.getItem('token');
+            const decodedToken = jwtDecode(token);
+            const user_id = decodedToken.user_id;
+            setUserId(user_id);
+            console.log(user_id);
+
             const formData = new FormData();
             formData.append('images', file);
             formData.append('companyName', companyName);
             formData.append('Description', Description);
+            formData.append('Phonenumber', Phonenumber);
+            formData.append('userId', userId);
+
+            const response = await axios.post('http://localhost:5000/newservices', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
 
 
-            const response = await axios.post('http://localhost:5000/newservices', formData,
-            ).then(res => {
-                console.log(res)
-            }).catch(err => console.log(err))
-            console.log(formData)
-            // Clear input fields after submitting
             setCompanyname('');
-            setFile('');
+            setFile(null);
             setDescription('');
-            // Clear input fields after submitting
-            window.location = '/';
-            console.log(response);
+            setPhonenumber('');
+            console.log(response.data);
+
+
         } catch (err) {
             console.error(err.message);
+            // Handle error and display a message to the user
         }
     };
+
 
     return (
         <div>
@@ -46,78 +75,65 @@ export const Providerservice = () => {
                 <div
                     id="product-service-page"
                     className="d-flex min-vh-100"
-                    lc-helper="background"
                     style={{
-                        backgroundBlendMode: 'overlay',
                         backgroundColor: '#201f1fc6',
-                        backgroundImage: `url(${backgroundimg}  )`,
+                        backgroundImage: `url(${backgroundimg})`,
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
-                        with: '100%',
-
+                        width: '100%',
                     }}
                 >
-
                     <div className="align-self-center text-center text-light col-md-9 offset-md-2">
                         <div className="lc-block mb-">
                             <div editable="rich">
-
-
-
                                 <form style={{ marginTop: '15%' }} onSubmit={onSubmitForm}>
-                                    <h1 style={{ color: 'white', marginBottom: '10%' }}> provide us with your product details </h1>
-                                    {/* 2 column grid layout with text inputs for the first and last names */}
+                                    <h1 style={{ color: 'white', marginBottom: '10%' }}>Provide Us With Your Product Details</h1>
 
-                                    {/* Text input */}
-                                    <label className="companyname" htmlFor="companyname">
-                                        Company name
-                                    </label>
-                                    <div className="form-outline mb-4">
-                                        <input
-                                            type="text"
-                                            id="companyname"
-                                            className="form-control"
-                                            value={companyName}
-                                            onChange={(e) => setCompanyname(e.target.value)}
-                                        />
-                                    </div>
-                                    {/* Text input */}
-                                    <label className="image" htmlFor="image">
-                                        image
-                                    </label>
-                                    <div className="form-outline mb-4">
-                                        <input
-                                            type="file"
-                                            id="image"
-                                            className="form-control"
-                                            onChange={handleFileUpload}
-                                        />
-                                    </div>
-                                    {/* Message input */}
-                                    <label className="description" htmlFor="description">
-                                        description
-                                    </label>
-                                    <div className="form-outline mb-4">
-                                        <textarea
-                                            className="form-control"
-                                            id="description"
-                                            rows={4}
-                                            value={Description}
-                                            onChange={(e) => setDescription(e.target.value)}
-                                        />
-                                    </div>
-                                    {/* Submit button */}
-                                    <button type="submit" className="btn btn-primary btn-block mb-4">
-                                        Place order
+                                    <FormInput
+                                        label="Company Name"
+                                        type="text"
+                                        placeholder="Enter company name"
+                                        value={companyName}
+                                        onChange={(e) => setCompanyname(e.target.value)}
+                                        required
+                                    />
+
+                                    <FormInput
+                                        label="Image"
+                                        type="file"
+                                        onChange={handleFileUpload}
+                                        required
+                                    />
+
+                                    <FormInput
+                                        label="Description"
+                                        type="text"
+                                        placeholder="Enter description"
+                                        value={Description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        required
+                                    />
+
+                                    <FormInput
+                                        label="Phone Number"
+                                        type="tel"
+                                        placeholder="Enter phone number"
+                                        value={Phonenumber}
+                                        onChange={(e) => setPhonenumber(e.target.value)}
+                                        required
+                                    />
+
+                                    <button type="submit" className="btn btn-primary btn-block mt-4">
+                                        Place Order
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <br />
-                <br />
             </section>
+            <br />
+            <br />
         </div>
     );
 };

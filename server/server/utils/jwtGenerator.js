@@ -7,7 +7,7 @@ function jwtGenerator(user) {
       email: user.email,
       role: user.role
    };
-   return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "50hr" });
+   return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "100hr" });
 }
 function getItem(token) {
    const decoded = jwt.verify(token,process.env.jwtSecret);
