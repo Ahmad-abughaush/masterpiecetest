@@ -3,6 +3,7 @@ import '../css/Providerproductpage.css';
 import backgroundimg from './img/بكبس-transformed.jpeg';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import Nav from './layout/Nav';
 
 export const Providerproduct = () => {
     const [productNAME, setProductname] = useState('');
@@ -68,7 +69,7 @@ export const Providerproduct = () => {
                 // You should use React Router for navigation if applicable
                 // Example with react-router-dom:
 
-            window.location('/Providerhome');
+                window.location('/Providerhome');
 
             } else {
                 console.error('User ID is not available.');
@@ -82,6 +83,7 @@ export const Providerproduct = () => {
 
     return (
         <div>
+            <Nav />
             <section>
                 <div
                     id="product-provider-page"

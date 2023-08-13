@@ -52,9 +52,9 @@ const allServices = async (req, res) => {
 
         const services = await Service.find(req.query)
         const result = await Promise.all(services.map(async (service) => {
-            const provider = await Provider.findById(service.user_id);
+            const user = await User.findById(service.user_id);
             return {
-                provider,
+                user,
                 service
             }
         }))
@@ -64,6 +64,20 @@ const allServices = async (req, res) => {
         return errorHandler(e, req, res);
     }
 };
+
+
+const AllservicesByUserId = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const services = await Service.find({ user_id: userId });
+        res.json(services);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching services. Please try again later.' });
+    }
+}
+
+
 
 
 const oneServiceById = async (req, res) => {
@@ -142,6 +156,7 @@ const deleteService = async (req, res) => {
 
 module.exports = {
     allServices,
+    AllservicesByUserId,
     oneServiceById,
     newService,
     updateService,

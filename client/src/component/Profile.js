@@ -5,6 +5,7 @@ import Nav from './layout/Nav';
 import "../css/Profile.css";
 import Ordertable from './Ordertable';
 import Providertable from './Providertable';
+import Servicetable from './Servicetable';
 
 export default function Profile() {
   const [username, setUsername] = useState('');
@@ -186,10 +187,14 @@ export default function Profile() {
       </div>
 
       {role === "user" ? (
-        userId && <Ordertable userId={userId} />
-      ) : (
-        userId && <Providertable userId={userId} />
-      )}
+  userId && <Ordertable userId={userId} />
+) : (
+  <>
+    {userId && <Providertable userId={userId} />}
+    {userId && <Servicetable userId={userId} />}
+  </>
+)}
+
     </>
   );
 }

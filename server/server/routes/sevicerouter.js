@@ -25,6 +25,8 @@ router.post("/newservices", upload.single("images"), ServiceController.newServic
 
 router.get("/services", ServiceController.allServices);
 
+router.get("/services/:userId", ServiceController.AllservicesByUserId);
+
 router.get("/services/:id", ServiceController.oneServiceById);
 
 router.put("/services/:id", auth, ServiceController.updateService);
