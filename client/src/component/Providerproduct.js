@@ -69,7 +69,7 @@ export const Providerproduct = () => {
                 // You should use React Router for navigation if applicable
                 // Example with react-router-dom:
 
-                window.location('/Providerhome');
+                window.location = '/Providerhome';
 
             } else {
                 console.error('User ID is not available.');

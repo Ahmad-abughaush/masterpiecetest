@@ -12,9 +12,12 @@ const ShoppingCart = () => {
     const [calculatedTotal, setCalculatedTotal] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token'));
     const [userId, setUserId] = useState('');
-
-
+    const [nameOnCard, setNameOnCard] = useState('');
+    const [cardExpiration, setCardExpiration] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [cvv, setCvv] = useState('');
     const navigate = useNavigate();
+
 
     useEffect(() => {
         const cartData = localStorage.getItem('cartProducts');
@@ -51,19 +54,37 @@ const ShoppingCart = () => {
     const handleAddressChange = (e) => {
         setShippingAddress(e.target.value);
     };
+
     const handlePurchase = async (e) => {
         if (isLoggedIn) {
             const token = localStorage.getItem('token');
             setIsLoggedIn(token);
             const decodedToken = jwtDecode(token);
-            // Access the user_id from the decoded token
             const user_id = decodedToken.user_id;
             setUserId(user_id);
 
             e.preventDefault();
+
+            // Validation using regex patterns
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            const expRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+            const cardRegex = /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/;
+            const cvvRegex = /^\d{3}$/;
+
+            if (
+                !nameRegex.test(nameOnCard) ||
+                !expRegex.test(cardExpiration) ||
+                !cardRegex.test(cardNumber) ||
+                !cvvRegex.test(cvv) ||
+                shippingAddress === ''
+            ) {
+                alert('Please fill in all required fields correctly.');
+                return;
+            }
+
             try {
                 const order = {
-                    user: { _id: userId }, // Replace 'user_id_here' with the actual user ID or retrieve it from your user authentication system
+                    user: { _id: userId },
                     products: products,
                     calculatedTotal: calculatedTotal,
                     calculatedSubtotal: calculatedSubtotal,
@@ -78,11 +99,25 @@ const ShoppingCart = () => {
                 console.error(err.message);
             }
         } else {
-            alert("you have to login first")
-            window.location = '/Login';
+            alert("You have to log in first");
+            navigate('/Login');
         }
     };
 
+    const isFormValid = () => {
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        const expRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
+        const cardRegex = /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/;
+        const cvvRegex = /^\d{3}$/;
+
+        return (
+            nameRegex.test(nameOnCard) &&
+            expRegex.test(cardExpiration) &&
+            cardRegex.test(cardNumber) &&
+            cvvRegex.test(cvv) &&
+            shippingAddress !== ''
+        );
+    };
 
     return (
         <>
@@ -171,7 +206,6 @@ const ShoppingCart = () => {
                                     </tbody>
                                 </table>
                             </div>
-
                             <div className="card shadow-2-strong mb-5 mb-lg-0" style={{ borderRadius: 16 }}>
                                 <div className="card-body p-4">
                                     <div className="row">
@@ -240,27 +274,39 @@ const ShoppingCart = () => {
                                                         <input
                                                             type="text"
                                                             id="typeName"
-                                                            className="form-control form-control-lg"
+                                                            className={`form-control form-control-lg ${nameOnCard !== '' && !/^[a-zA-Z\s]+$/.test(nameOnCard) ? 'is-invalid' : ''
+                                                                }`}
                                                             size={17}
                                                             placeholder="John Smith"
+                                                            value={nameOnCard}
+                                                            onChange={(e) => setNameOnCard(e.target.value)}
                                                         />
                                                         <label className="form-label" htmlFor="typeName">
                                                             Name on card
                                                         </label>
+                                                        {nameOnCard !== '' && !/^[a-zA-Z\s]+$/.test(nameOnCard) && (
+                                                            <div className="invalid-feedback">Invalid name format</div>
+                                                        )}
                                                     </div>
                                                     <div className="form-outline mb-4 mb-xl-5">
                                                         <input
                                                             type="text"
                                                             id="typeExp"
-                                                            className="form-control form-control-lg"
+                                                            className={`form-control form-control-lg ${cardExpiration !== '' && !/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiration) ? 'is-invalid' : ''
+                                                                }`}
                                                             placeholder="MM/YY"
                                                             size={7}
                                                             minLength={7}
                                                             maxLength={7}
+                                                            value={cardExpiration}
+                                                            onChange={(e) => setCardExpiration(e.target.value)}
                                                         />
                                                         <label className="form-label" htmlFor="typeExp">
                                                             Expiration
                                                         </label>
+                                                        {cardExpiration !== '' && !/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiration) && (
+                                                            <div className="invalid-feedback">Invalid expiration format</div>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className="col-12 col-xl-6">
@@ -268,29 +314,41 @@ const ShoppingCart = () => {
                                                         <input
                                                             type="text"
                                                             id="typeText"
-                                                            className="form-control form-control-lg"
+                                                            className={`form-control form-control-lg ${cardNumber !== '' && !/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber) ? 'is-invalid' : ''
+                                                                }`}
                                                             size={17}
                                                             placeholder="1111 2222 3333 4444"
                                                             minLength={19}
                                                             maxLength={19}
+                                                            value={cardNumber}
+                                                            onChange={(e) => setCardNumber(e.target.value)}
                                                         />
                                                         <label className="form-label" htmlFor="typeText">
                                                             Card Number
                                                         </label>
+                                                        {cardNumber !== '' && !/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber) && (
+                                                            <div className="invalid-feedback">Invalid card number format</div>
+                                                        )}
                                                     </div>
                                                     <div className="form-outline mb-4 mb-xl-5">
                                                         <input
                                                             type="password"
                                                             id="typeText"
-                                                            className="form-control form-control-lg"
+                                                            className={`form-control form-control-lg ${cvv !== '' && !/^\d{3}$/.test(cvv) ? 'is-invalid' : ''
+                                                                }`}
                                                             placeholder="●●●"
                                                             size={1}
                                                             minLength={3}
                                                             maxLength={3}
+                                                            value={cvv}
+                                                            onChange={(e) => setCvv(e.target.value)}
                                                         />
                                                         <label className="form-label" htmlFor="typeText">
                                                             Cvv
                                                         </label>
+                                                        {cvv !== '' && !/^\d{3}$/.test(cvv) && (
+                                                            <div className="invalid-feedback">Invalid CVV format</div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -302,7 +360,8 @@ const ShoppingCart = () => {
                                                     <input
                                                         type="text"
                                                         id="address"
-                                                        className="form-control form-control-lg"
+                                                        className={`form-control form-control-lg ${shippingAddress === '' ? 'is-invalid' : ''
+                                                            }`}
                                                         value={shippingAddress}
                                                         onChange={handleAddressChange}
                                                         placeholder="Enter your address"
@@ -310,6 +369,7 @@ const ShoppingCart = () => {
                                                     <label className="form-label" htmlFor="address">
                                                         Address
                                                     </label>
+                                                    {shippingAddress === '' && <div className="invalid-feedback">Address is required</div>}
                                                 </div>
                                                 {/* You can add additional address fields like city, postal code, etc. here */}
                                             </div>
@@ -325,7 +385,11 @@ const ShoppingCart = () => {
                                                 <p className="mb-2">Total</p>
                                                 <p className="mb-2">{calculatedTotal}</p>
                                             </div>
-                                            <button className="btn btn-primary btn-lg" onClick={handlePurchase}>
+                                            <button
+                                                className="btn btn-primary btn-lg"
+                                                onClick={handlePurchase}
+                                                disabled={!isFormValid()}
+                                            >
                                                 Purchase
                                             </button>
                                         </div>

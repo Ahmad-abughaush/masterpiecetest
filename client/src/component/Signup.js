@@ -1,4 +1,3 @@
-// Signup.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,10 +5,7 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { BsFillEnvelopeFill } from 'react-icons/bs';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsTelephoneFill } from 'react-icons/bs';
-import jwtDecode from 'jwt-decode'; // Import the jwt-decode library
-
-
-
+import jwtDecode from 'jwt-decode';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -17,10 +13,38 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [role, setRole] = useState('user'); // Set a default role
+  const [role, setRole] = useState('user');
+
+  const [usernameError, setUsernameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const handleSignUpSubmit = async (event) => {
     event.preventDefault();
+
+    if (!username) {
+      setUsernameError('Username is required');
+      return;
+    }
+
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      setEmailError('Invalid email should have @ ');
+      return;
+    }
+
+    const phonePattern = /^07\d{8}$/;
+    if (!phonePattern.test(phone)) {
+      setPhoneError('phone number should start with 07 and at least 10 numbers ');
+      return;
+    }
+
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[@!$%^&*])[A-Za-z\d@!$%^&*]{8,}$/;
+    if (!passwordPattern.test(password)) {
+      setPasswordError('Password must have at least 8 characters C.l and a S.C');
+      return;
+    }
 
     try {
       const response = await axios.post('http://localhost:5000/signup', {
@@ -32,19 +56,14 @@ export default function Signup() {
       });
 
       const { token } = response.data;
-      // Set the token in localStorage
       localStorage.setItem('token', token);
 
-
-
-      // Redirect the user to a success page or any other desired route
       if (role === 'user') {
         navigate('/');
       } else if (role === 'provider') {
         navigate('/Providerhome');
       }
     } catch (error) {
-      // Handle error response from the server (e.g., display error message to the user)
       console.error(error);
     }
   };
@@ -97,8 +116,12 @@ export default function Signup() {
                 placeholder="Username"
                 name="username"
                 value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                  setUsernameError('');
+                }}
               />
+              <div className="error">{usernameError}</div>
             </div>
 
             <div className="field" style={{ marginBottom: '20px' }}>
@@ -109,20 +132,27 @@ export default function Signup() {
                 placeholder="Email"
                 name="email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setEmailError('');
+                }}
               />
+              <div className="error">{emailError}</div>
             </div>
 
             <div className="field" style={{ marginBottom: '20px' }}>
               <BsTelephoneFill style={{ width: '25px', height: '20px', marginTop: '13px' }} />
               <input
                 type="tel"
-                required
                 placeholder="Phone Number"
                 name="phone"
                 value={phone}
-                onChange={(event) => setPhone(event.target.value)}
+                onChange={(event) => {
+                  setPhone(event.target.value);
+                  setPhoneError('');
+                }}
               />
+              <div className="error">{phoneError}</div>
             </div>
 
             <div className="field space">
@@ -130,15 +160,15 @@ export default function Signup() {
               <input
                 type="password"
                 className="pass-key"
-                required
                 placeholder="Password"
                 name="password"
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  setPasswordError('');
+                }}
               />
-            </div>
-            <div className="pass">
-              <a href="#sss">Forgot Password?</a>
+              <div className="error">{passwordError}</div>
             </div>
 
             <div className="field">

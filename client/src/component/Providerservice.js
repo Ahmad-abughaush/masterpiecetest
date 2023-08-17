@@ -60,6 +60,7 @@ export const Providerservice = () => {
             setDescription('');
             setPhonenumber('');
             console.log(response.data);
+            window.location = '/Providerhome';
 
 
         } catch (err) {
