@@ -104,7 +104,7 @@ const oneItemById = async (req, res) => {
         if (!item) {
             return res.status(404).json({ message: 'item not found' })
         }
-        const user = await User.findById(item.provider_id);
+        const user = await User.findById(item.user_id);
         return res.json({
             user,
             item
@@ -118,57 +118,49 @@ const oneItemById = async (req, res) => {
 
 
 
-
 const updateItem = async (req, res) => {
     const id = req.params.id;
-    let data = req.body;
+    const data = req.body;
 
     const item = await Item.findById(id);
 
     if (!item) {
-        return res.status(404).json({ error: 'items not found' });
+        return res.status(404).json({ error: 'Item not found' });
     }
 
-    if (item.provider_id !== req.user._id.toString()) {
-        return res.status(422).json({ error: 'items dose not belong to user' });
-    }
 
     const fillable = [
         'itemName',
-        'description',
         'price',
-        'quantity',
+        'companyname',
     ];
 
-    const updateData = {}
+    const updateData = {};
 
     fillable.forEach(function (filterItem) {
         if (data[filterItem]) {
             updateData[filterItem] = data[filterItem];
         }
-    }
-    );
+    });
+
     updateData.updated_at = Date.now();
-    const updatedItem = await Item.findByIdAndUpdate(id, updateData);
+    const updatedItem = await Item.findByIdAndUpdate(id, updateData, { new: true });
 
     res.json(updatedItem);
 };
 
 const deleteItem = async (req, res) => {
     try {
-
         const id = req.params.id;
         const item = await Item.findById(id);
         if (!item) {
-            return res.status(404).json({ error: 'items not found' });
+            return res.status(404).json({ error: 'Item not found' });
         }
-        if (item.provider_id !== req.user._id.toString()) {
-            return res.status(422).json({ error: 'items dose not belong to user' });
-        }
+      
         const deletedItem = await Item.findByIdAndRemove(id);
-        return res.status(200).json({ message: 'item deleted successfully', removedItem: deletedItem });
+        return res.status(200).json({ message: 'Item deleted successfully', removedItem: deletedItem });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         return res.status(500).json({ error: 'Failed to remove Item' });
     }
 };

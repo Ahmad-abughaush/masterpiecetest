@@ -1,5 +1,4 @@
 const errorHandler = require("../middleware/500");
-const Provider = require("../models/providermodel");
 const User = require('../models/usermodel'); // Adjust the path as needed
 const Service = require("../models/servicemodel");
 
@@ -87,7 +86,7 @@ const oneServiceById = async (req, res) => {
         if (!service) {
             return res.status(404).json({ message: 'service not found' })
         }
-        const provider = await Provider.findById(service.provider_id);
+        const provider = await user.findById(service.user_id);
         return res.json({
             provider,
             service
@@ -108,12 +107,11 @@ const updateService = async (req, res) => {
             return res.status(404).json({ error: 'service not found' });
         }
 
-        if (service.provider_id !== req.user._id.toString()) {
-            return res.status(422).json({ error: 'service dose not belong to user' });
-        }
 
-        const fillable = [
+        const fillable = [           
             'description',
+            'phone',
+            'companyname'
         ];
 
         const updateData = {}
@@ -142,9 +140,7 @@ const deleteService = async (req, res) => {
         if (!service) {
             return res.status(404).json({ error: 'service not found' });
         }
-        if (service.provider_id !== req.user._id.toString()) {
-            return res.status(422).json({ error: 'service dose not belong to user' });
-        }
+    
         const deletedService = await Service.findByIdAndRemove(id);
         return res.status(200).json({ message: 'service deleted successfully', deletedService });
     } catch (error) {

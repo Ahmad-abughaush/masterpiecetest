@@ -31,9 +31,9 @@ router.get('/items/:userId', itemController.getAllItemsByUserId);
 
 router.get("/items/:id", itemController.oneItemById);
 
-router.put("/items/:id", auth, itemController.updateItem);
+router.put("/items/:id",  itemController.updateItem);
 
-router.delete("/items/:id", auth, itemController.deleteItem);
+router.delete("/items/:id", itemController.deleteItem);
 
 module.exports = router;
 
