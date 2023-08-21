@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FaTruck } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import ShoppingCart from './ShoppingCart';
 

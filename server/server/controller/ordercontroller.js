@@ -38,7 +38,31 @@ const getOrdersByUserId = async (req, res) => {
 };
 
 
+const getallOrders = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        return res.json(orders);
+    } catch (e) {
+        return errorHandler(e, req, res); // Make sure errorHandler is defined and imported
+    }
+};
+
+const deleteOrderById = async (req, res) => {
+    try {
+        const deletedOrder = await Order.findByIdAndDelete(req.params.orderId);
+        if (!deletedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        return res.status(200).json({ message: 'Order deleted successfully' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error deleting order', error: error.message });
+    }
+};
+
+
 module.exports = {
     getOrdersByUserId,
     newOrder,
+    getallOrders,
+    deleteOrderById
 };
