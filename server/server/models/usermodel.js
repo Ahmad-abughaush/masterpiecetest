@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
 
-
+    approved: {
+        type: Boolean,
+        default: false, 
+    },
     username: {
         type: String,
         required: true

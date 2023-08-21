@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 // Register route
 const signup = async (req, res) => {
     try {
-        const { username, email, password, phone, role } = req.body;
+        const { username, email, password, phone, role, approved } = req.body;
 
         const existingUser = await User.findOne({ email });
 
@@ -16,6 +16,7 @@ const signup = async (req, res) => {
         }
 
         const newUser = new User({
+            approved, // This is where you're setting the approved field from the request body
             username,
             email,
             password,
@@ -32,7 +33,7 @@ const signup = async (req, res) => {
         const token = jwtGenerator(newUser);
 
         res.json({
-            token, 
+            token,
         });
     } catch (err) {
         console.error(err.message);
@@ -71,6 +72,56 @@ const login = async (req, res) => {
 };
 
 
+
+
+const getallusers = async (req, res) => {
+    try {
+        const users = await User.find();
+        return res.json(users);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error fetching providers', error: error.message });
+    }
+};
+
+
+
+
+
+const getallproviders = async (req, res) => {
+    try {
+        const providers = await User.find({ role: 'provider' });
+        return res.json(providers);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error fetching providers', error: error.message });
+    }
+};
+
+
+const acceptprovider = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await User.findByIdAndUpdate(userId, { approved: true }, { new: true });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.json(user);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error updating user', error: error.message });
+    }
+};
+
+const deleteProvider = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const deletedUser = await User.findByIdAndDelete(userId);
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error deleting user', error: error.message });
+    }
+};
 
 const oneUser = async (req, res) => {
     const userId = req.params.id;
@@ -134,5 +185,9 @@ module.exports = {
     signup,
     login,
     oneUser,
-    updateUser
+    updateUser,
+    getallproviders,
+    acceptprovider,
+    deleteProvider,
+    getallusers
 };

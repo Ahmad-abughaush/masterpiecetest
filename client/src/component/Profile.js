@@ -23,7 +23,6 @@ export default function Profile() {
     const token = localStorage.getItem('token');
     const decodedToken = jwtDecode(token);
     const user_id = decodedToken.user_id;
-    console.log(user_id);
     setUserId(user_id);
     const userRole = decodedToken.role;
     setRole(userRole);

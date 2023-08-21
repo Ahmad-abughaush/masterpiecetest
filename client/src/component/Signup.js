@@ -13,6 +13,7 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [approved, setApproved] = useState(false);
   const [role, setRole] = useState('user');
 
   const [usernameError, setUsernameError] = useState('');
@@ -48,6 +49,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post('http://localhost:5000/signup', {
+        approved,
         username,
         email,
         password,
@@ -57,7 +59,7 @@ export default function Signup() {
 
       const { token } = response.data;
       localStorage.setItem('token', token);
-
+      
       if (role === 'user') {
         navigate('/');
       } else if (role === 'provider') {
