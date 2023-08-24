@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
+
+    approved: {
+        type: Boolean,
+        default: false,
+    },
     user_id: {
         type: String,
         required: true

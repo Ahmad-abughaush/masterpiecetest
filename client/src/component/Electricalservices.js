@@ -6,18 +6,12 @@ export default function Electricalservices() {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [Services, setServices] = useState([]);
-    const [storedServices, setStoredServices] = useState([]);
-    const data1 = storedServices.map(({ service }) => {
-        return service;
-    });
-
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/services");
+                const response = await axios.get("http://localhost:5000/servicestrue");
                 setData(response.data);
-                console.log(response.data)
-                setStoredServices(response.data);
             } catch (error) {
                 console.log("Error in fetching data", error);
             }
@@ -46,7 +40,7 @@ export default function Electricalservices() {
         alert(`Call ${phoneNumber}`);
     };
 
-    const filteredData = data1.filter((service) =>
+    const filteredData = data.filter((service) =>
         service && service.description && service.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 

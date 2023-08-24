@@ -25,7 +25,7 @@ router.post("/newitems",upload.single("images"),itemController.newItem
 );
 
 
-router.get("/items", itemController.allItems);
+router.get("/itemsapproved", itemController.allItemsapproved);
 
 router.get('/items/:userId', itemController.getAllItemsByUserId);
 
@@ -35,5 +35,13 @@ router.put("/items/:id",  itemController.updateItem);
 
 router.delete("/items/:id", itemController.deleteItem);
 
+
+
+// dashboard
+router.patch('/items/:id', itemController.updateProductApprovalStatus);
+
+router.get("/items", itemController.allItems);
+
+// dashboard
 module.exports = router;
 

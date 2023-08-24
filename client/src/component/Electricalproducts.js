@@ -8,28 +8,28 @@ const ElectricalProducts = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [cartProduct, setCartProduct] = useState([]);
   const [storedData, setStoredData] = useState([]);
-  const data1 = storedData.map(({ item }) => {
-    return item
-  })
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/items');
+        const response = await axios.get('http://localhost:5000/itemsapproved', {
+          params: {
+            approved: true,
+          },
+        });
         setData(response.data);
-        setStoredData(response.data); // Save the fetched data to storedData state variable
+        setStoredData(response.data);
         console.log(response.data);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
     };
-
     fetchData();
-    if (localStorage.cartProducts != null) {
-      setCartProduct(JSON.parse(localStorage.cartProducts));
-    }
 
+    const storedProducts = localStorage.getItem('cartProducts');
+    if (storedProducts) {
+      setCartProduct(JSON.parse(storedProducts));
+    }
   }, []);
 
   const handleAddToCart = (item) => {
@@ -37,24 +37,14 @@ const ElectricalProducts = () => {
     const cardDetails = { attachments, itemName, price, quantity: 1, companyname };
     setCartProduct([...cartProduct, cardDetails]);
     localStorage.setItem('cartProducts', JSON.stringify([...cartProduct, cardDetails]));
-
   };
-
-  const items = localStorage.getItem('cartProducts')
-
-  useEffect(() => {
-    const storedProducts = localStorage.getItem('cartProducts');
-    if (storedProducts) {
-      setCartProduct(JSON.parse(storedProducts));
-    }
-  }, []);
 
   const handleFilter = (event) => {
     const filterValue = event.target.value;
     setSearchTerm(filterValue);
   };
 
-  const filteredData = data1.filter((item) =>
+  const filteredData = storedData.filter((item) =>
     item.itemName && item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

@@ -13,7 +13,7 @@ export const Providerproduct = () => {
     const [file, setFile] = useState(null);
     const [Description, setDescription] = useState('');
     const [userId, setUserId] = useState('');
-
+    const [approved, setApproved] = useState(false);
 
 
 
@@ -48,6 +48,8 @@ export const Providerproduct = () => {
                 formData.append('Quantity', Quantity);
                 formData.append('Description', Description);
                 formData.append('userId', userId);
+                formData.append('approved', false); // Set approved to false
+
 
                 const response = await axios.post('http://localhost:5000/newitems', formData, {
                     headers: {

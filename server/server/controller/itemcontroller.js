@@ -45,7 +45,8 @@ const newItem = async (req, res) => {
         description: formData.Description,
         price: parseInt(formData.Price),
         quantity: parseInt(formData.Quantity),
-        user_id: formData.userId
+        user_id: formData.userId,
+        approved: formData.approved
     });
 
     try {
@@ -63,20 +64,14 @@ const newItem = async (req, res) => {
 
 
 
-const allItems = async (req, res) => {
+const allItemsapproved = async (req, res) => {
     try {
         if (req.query.itemName) {
-            req.query.itemName = { $regex: '.*' + req.query.itemName + '.*' }
+            req.query.itemName = { $regex: '.*' + req.query.itemName + '.*' };
         }
+        req.query.approved = true; // Add this line to filter by approved items
         const items = await Item.find(req.query);
-        const result = await Promise.all(items.map(async (item) => {
-            const user = await User.findById(item.user_id);
-            return {
-                user,
-                item
-            }
-        }))
-        return res.json(result);
+        return res.json(items); // Returning only the approved items
     } catch (e) {
         return errorHandler(e, req, res);
     }
@@ -115,6 +110,39 @@ const oneItemById = async (req, res) => {
 }
 
 
+
+
+// dashboard
+
+const allItems = async (req, res) => {
+    try {
+        if (req.query.itemName) {
+            req.query.itemName = { $regex: '.*' + req.query.itemName + '.*' };
+        }
+        const items = await Item.find(req.query);
+        return res.json(items); // Returning only the approved items
+    } catch (e) {
+        return errorHandler(e, req, res);
+    }
+};
+const updateProductApprovalStatus = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const { approved } = req.body; // Extract approved from the request body
+        const updatedItem = await Item.findByIdAndUpdate(productId, { approved }, { new: true });
+
+        if (!updatedItem) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        return res.json(updatedItem);
+    } catch (e) {
+        return errorHandler(e, req, res);
+    }
+};
+
+
+// dashboard
 
 
 
@@ -156,7 +184,7 @@ const deleteItem = async (req, res) => {
         if (!item) {
             return res.status(404).json({ error: 'Item not found' });
         }
-      
+
         const deletedItem = await Item.findByIdAndRemove(id);
         return res.status(200).json({ message: 'Item deleted successfully', removedItem: deletedItem });
     } catch (error) {
@@ -172,5 +200,7 @@ module.exports = {
     newItem,
     updateItem,
     deleteItem,
-    getAllItemsByUserId
+    getAllItemsByUserId,
+    updateProductApprovalStatus,
+    allItemsapproved
 }; 

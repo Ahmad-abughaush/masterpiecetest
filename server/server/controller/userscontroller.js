@@ -136,6 +136,21 @@ const oneUser = async (req, res) => {
     }
 };
 
+
+const getUserByEmail = async (req, res) => {
+    const userEmail = req.params.email; 
+    try {
+        const user = await User.findOne({ email: userEmail }); // Use findOne with email filter
+        if (!user) {                                                                                                                                                                                                                                
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.json(user);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error fetching user', error: error.message });
+    }
+};
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 const updateUser = async (req, res, next) => {
     try {
         const userId = req.params.id;
@@ -189,5 +204,6 @@ module.exports = {
     getallproviders,
     acceptprovider,
     deleteProvider,
-    getallusers
+    getallusers,
+    getUserByEmail
 };

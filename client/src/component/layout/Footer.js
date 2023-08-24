@@ -46,7 +46,7 @@ export default function Footer() {
                                         Payments
                                     </a>
                                 </li>
-                                <li className="mb-2">
+                                 <li className="mb-2">
                                     <a href="#" className="text-muted">
                                         Shipping
                                     </a>

@@ -24,6 +24,8 @@ export const Providerservice = () => {
     const [Description, setDescription] = useState('');
     const [Phonenumber, setPhonenumber] = useState('');
     const [userId, setUserId] = useState('');
+    const [approved, setApproved] = useState(false);
+
 
     const handleFileUpload = (e) => {
         const uploadedFile = e.target.files[0];
@@ -47,6 +49,8 @@ export const Providerservice = () => {
             formData.append('Description', Description);
             formData.append('Phonenumber', Phonenumber);
             formData.append('userId', userId);
+            formData.append('approved', false); // Set approved to false
+
 
             const response = await axios.post('http://localhost:5000/newservices', formData, {
                 headers: {

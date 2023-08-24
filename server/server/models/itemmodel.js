@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
+
+    approved: {
+        type: Boolean,
+        default: false,
+    }
+    ,
     user_id: {
         type: String,
         required: true
@@ -17,7 +23,7 @@ const itemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
+
     description: {
         type: String,
         required: true

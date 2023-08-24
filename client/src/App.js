@@ -18,7 +18,7 @@ import { Providerproduct } from './component/Providerproduct';
 import { Providerservice } from './component/Providerservice';
 import Providerhome from './component/Providerhome';
 import Profile from './component/Profile';
-
+import WaitingHome from './component/WaitingHome';
 
 
 function App() {
@@ -42,6 +42,7 @@ function App() {
           <Route element={<Providerservice />} path="/Providerhome/Providerservice" />
           <Route element={<Providerhome />} path="/Providerhome" />
           <Route element={<Profile />} path="/Profile" />
+          <Route element={<WaitingHome />} path="/WaitingHome" />
 
         </Routes>
 

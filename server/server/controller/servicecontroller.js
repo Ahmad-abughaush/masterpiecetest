@@ -31,6 +31,8 @@ const newService = async (req, res) => {
             companyname: formData.companyName,
             description: formData.Description,
             phone: parseInt(formData.Phonenumber),
+            approved: formData.approved
+
         });
 
         const service = await newService.save();
@@ -42,27 +44,16 @@ const newService = async (req, res) => {
 };
 
 
-
-const allServices = async (req, res) => {
+const approvedServices = async (req, res) => {
     try {
-        if (req.query.description) {
-            req.query.description = { $regex: '.*' + req.query.description + '.*' }
-        }
+        const services = await Service.find({ approved: true });
 
-        const services = await Service.find(req.query)
-        const result = await Promise.all(services.map(async (service) => {
-            const user = await User.findById(service.user_id);
-            return {
-                user,
-                service
-            }
-        }))
-
-        return res.json(result);
+        return res.json(services);
     } catch (e) {
         return errorHandler(e, req, res);
     }
 };
+
 
 
 const AllservicesByUserId = async (req, res) => {
@@ -108,7 +99,7 @@ const updateService = async (req, res) => {
         }
 
 
-        const fillable = [           
+        const fillable = [
             'description',
             'phone',
             'companyname'
@@ -133,6 +124,38 @@ const updateService = async (req, res) => {
     }
 };
 
+
+// dashboard
+
+const allServices = async (req, res) => {
+    try {
+        if (req.query.description) {
+            req.query.description = { $regex: '.*' + req.query.description + '.*' };
+        }
+
+        const services = await Service.find(req.query);
+
+        return res.json(services); // Return only the services data
+    } catch (e) {
+        return errorHandler(e, req, res);
+    }
+};
+
+const updateServiceApproval = async (req, res) => {
+    try {
+        const serviceId = req.params.id;
+        const updatedService = await Service.findByIdAndUpdate(serviceId, { approved: true }, { new: true });
+
+        if (!updatedService) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
+        return res.json(updatedService);
+    } catch (e) {
+        return errorHandler(e, req, res);
+    }
+};
+// dashboard
+
 const deleteService = async (req, res) => {
     try {
         const id = req.params.id;
@@ -140,7 +163,7 @@ const deleteService = async (req, res) => {
         if (!service) {
             return res.status(404).json({ error: 'service not found' });
         }
-    
+
         const deletedService = await Service.findByIdAndRemove(id);
         return res.status(200).json({ message: 'service deleted successfully', deletedService });
     } catch (error) {
@@ -157,4 +180,6 @@ module.exports = {
     newService,
     updateService,
     deleteService,
+    updateServiceApproval,
+    approvedServices
 }; 

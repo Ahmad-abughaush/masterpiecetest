@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { BsFillEnvelopeFill } from 'react-icons/bs';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsTelephoneFill } from 'react-icons/bs';
-import jwtDecode from 'jwt-decode';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function Signup() {
   const [phone, setPhone] = useState('');
   const [approved, setApproved] = useState(false);
   const [role, setRole] = useState('user');
+  const [UserId, setUserId] = useState('');
 
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -31,22 +32,21 @@ export default function Signup() {
 
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(email)) {
-      setEmailError('Invalid email should have @ ');
+      setEmailError('Invalid email format');
       return;
     }
 
     const phonePattern = /^07\d{8}$/;
     if (!phonePattern.test(phone)) {
-      setPhoneError('phone number should start with 07 and at least 10 numbers ');
+      setPhoneError('Invalid phone number format');
       return;
     }
 
     const passwordPattern = /^(?=.*[A-Z])(?=.*[@!$%^&*])[A-Za-z\d@!$%^&*]{8,}$/;
     if (!passwordPattern.test(password)) {
-      setPasswordError('Password must have at least 8 characters C.l and a S.C');
+      setPasswordError('Password must have at least 8 characters, one uppercase letter, and one special character');
       return;
     }
-
     try {
       const response = await axios.post('http://localhost:5000/signup', {
         approved,
@@ -59,11 +59,17 @@ export default function Signup() {
 
       const { token } = response.data;
       localStorage.setItem('token', token);
-      
-      if (role === 'user') {
+
+      // Fetch user data and navigate based on role and approval status
+      const userResponse = await axios.get(`http://localhost:5000/users/email/${email}`);
+      const user = userResponse.data;
+
+      if (user.role === 'user') {
         navigate('/');
-      } else if (role === 'provider') {
+      } else if (user.role === 'provider' && user.approved===true) {
         navigate('/Providerhome');
+      } else {
+        navigate('/WaitingHome');
       }
     } catch (error) {
       console.error(error);
