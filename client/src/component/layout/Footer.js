@@ -6,10 +6,10 @@ import "../layout/Footer.css"
 export default function Footer() {
     return (
         <>
-        
-            
-<br/> 
-<br/>
+
+
+            <br />
+            <br />
             <footer className="bg-white">
                 <div className="container py-5" >
                     <div className="row py-3">
@@ -46,7 +46,7 @@ export default function Footer() {
                                         Payments
                                     </a>
                                 </li>
-                                 <li className="mb-2">
+                                <li className="mb-2">
                                     <a href="#" className="text-muted">
                                         Shipping
                                     </a>

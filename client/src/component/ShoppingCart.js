@@ -4,7 +4,7 @@ import axios from 'axios';
 import "../css/ShoppingCart.css"
 import Nav from './layout/Nav';
 import jwtDecode from 'jwt-decode';
-
+import Swal from'sweetalert2'
 const ShoppingCart = () => {
     const [products, setProducts] = useState([]);
     const [shippingAddress, setShippingAddress] = useState('');
@@ -62,15 +62,13 @@ const ShoppingCart = () => {
             const decodedToken = jwtDecode(token);
             const user_id = decodedToken.user_id;
             setUserId(user_id);
-
-            e.preventDefault();
-
+    
             // Validation using regex patterns
             const nameRegex = /^[a-zA-Z\s]+$/;
             const expRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
             const cardRegex = /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/;
             const cvvRegex = /^\d{3}$/;
-
+    
             if (
                 !nameRegex.test(nameOnCard) ||
                 !expRegex.test(cardExpiration) ||
@@ -81,7 +79,7 @@ const ShoppingCart = () => {
                 alert('Please fill in all required fields correctly.');
                 return;
             }
-
+    
             try {
                 const order = {
                     user: { _id: userId },
@@ -90,11 +88,25 @@ const ShoppingCart = () => {
                     calculatedSubtotal: calculatedSubtotal,
                     shippingAddress: shippingAddress,
                 };
-
-                const response = await axios.post('http://localhost:5000/neworder', order);
-                console.log(response);
-                localStorage.removeItem('cartProducts');
-                window.location = '/';
+                const result = await Swal.fire({
+                    title: 'Are you sure you want to place the order?',
+                    text: 'Are you sure you want to place the order?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, place the order!',
+                });
+    
+                if (result.isConfirmed) {
+                    // Post the order data if the user confirms
+                    const response = await axios.post('http://localhost:5000/neworder', order);
+                    console.log(response);
+                    localStorage.removeItem('cartProducts');
+                    navigate('/');
+    
+                    Swal.fire('Success', 'Your order has been placed!', 'success'); // Display success message
+                }
             } catch (err) {
                 console.error(err.message);
             }
@@ -206,6 +218,9 @@ const ShoppingCart = () => {
                                     </tbody>
                                 </table>
                             </div>
+                         
+                         
+                         
                             <div className="card shadow-2-strong mb-5 mb-lg-0" style={{ borderRadius: 16 }}>
                                 <div className="card-body p-4">
                                     <div className="row">
@@ -355,7 +370,6 @@ const ShoppingCart = () => {
                                         </div>
                                         <div className="col-lg-4 col-xl-3">
                                             <div className="mb-4">
-                                                <h5>Shipping Address</h5>
                                                 <div className="form-outline mb-4">
                                                     <input
                                                         type="text"
@@ -396,6 +410,8 @@ const ShoppingCart = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            
                         </div>
                     </div>
                 </div>

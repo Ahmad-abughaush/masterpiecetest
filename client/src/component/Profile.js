@@ -148,6 +148,7 @@ export default function Profile() {
                           </div>
                           <div className="col-sm-9">
                             <input
+                              placeholder='**********'
                               type="password"
                               value={newPassword}
                               onChange={(e) => setNewPassword(e.target.value)}
@@ -162,6 +163,7 @@ export default function Profile() {
                           </div>
                           <div className="col-sm-9">
                             <input
+                              placeholder='**********'
                               type="password"
                               value={confirmPassword}
                               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -186,13 +188,13 @@ export default function Profile() {
       </div>
 
       {role === "user" ? (
-  userId && <Ordertable userId={userId} />
-) : (
-  <>
-    {userId && <Providertable userId={userId} />}
-    {userId && <Servicetable userId={userId} />}
-  </>
-)}
+        userId && <Ordertable userId={userId} />
+      ) : (
+        <>
+          {userId && <Providertable userId={userId} />}
+          {userId && <Servicetable userId={userId} />}
+        </>
+      )}
 
     </>
   );

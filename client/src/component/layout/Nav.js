@@ -5,6 +5,9 @@ import { BsPersonCircle } from 'react-icons/bs';
 import { FaShoppingCart } from 'react-icons/fa';
 import jwtDecode from 'jwt-decode';
 
+
+
+
 export default function Nav() {
     const [cartItems, setCartItems] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);

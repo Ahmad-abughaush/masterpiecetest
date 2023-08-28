@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Import Swal from sweetalert2
+
 
 export default function Providertable({ userId }) {
     const [items, setItems] = useState([]);
     const [error, setError] = useState('');
     const [editingItem, setEditingItem] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingItemId, setEditingItemId] = useState(null);
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -21,46 +25,62 @@ export default function Providertable({ userId }) {
         fetchItems();
     }, [userId]);
 
-    const handleEdit = async (itemId, updatedData) => {
-        const updatedItems = items.map(item => {
-            if (item._id === itemId) {
-                return { ...item, ...updatedData };
-            }
-            return item;
-        });
-
-        setItems(updatedItems);
-
-        try {
-            const response = await axios.put(`http://localhost:5000/items/${itemId}`, updatedData);
-        } catch (error) {
-            // Handle error
-        }
-    };
-
     const handleEditClick = (item) => {
-        setEditingItem(item);
+        setEditingItem(item); // Set the editingItem state for the clicked item
         setShowEditModal(true);
     };
 
-    const handleEditConfirm = () => {
-        if (editingItem) {
-            handleEdit(editingItem._id, editingItem);
-            setShowEditModal(false);
+    const handleEditConfirm = async () => {
+        try {
+            if (editingItem) {
+                const response = await axios.put(`http://localhost:5000/items/${editingItem._id}`, editingItem);
+                // Update items with the edited item
+                setItems(prevItems =>
+                    prevItems.map(item =>
+                        item._id === editingItem._id ? editingItem : item
+                    )
+                );
+                setShowEditModal(false);
+                setEditingItem(null); // Clear editingItem state
+            }
+        } catch (error) {
+            // Handle error
         }
     };
 
     const handleDelete = async (itemId) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/items/${itemId}`);
-            setItems(prevItems => prevItems.filter(item => item._id !== itemId));
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this item!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (result.isConfirmed) {
+                const response = await axios.delete(`http://localhost:5000/items/${itemId}`);
+                if (response.status === 200) {
+                    setItems(prevItems => prevItems.filter(item => item._id !== itemId));
+                    Swal.fire('Deleted!', 'The item has been deleted.', 'success');
+                } else {
+                    Swal.fire('Error', 'An error occurred while deleting the item.', 'error');
+                }
+            }
         } catch (error) {
-            // Handle error
+            console.error('Error deleting item:', error);
+            Swal.fire('Error', 'An error occurred while deleting the item.', 'error');
         }
     };
 
     return (
+
         <div>
+            <br />
+            <br />
+
             <table className="table align-middle mb-0 bg-white">
                 <thead className="bg-light">
                     <tr>
@@ -128,29 +148,43 @@ export default function Providertable({ userId }) {
                             </td>
                             <td>
                                 {editingItem && editingItem._id === item._id ? (
-                                    <button
-                                        type="button"
-                                        className="btn btn-link btn-sm btn-rounded"
-                                        onClick={handleEditConfirm}
-                                    >
-                                        Save
-                                    </button>
+                                    <>
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-rounded"
+                                            onClick={handleEditConfirm}
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm btn-rounded"
+                                            onClick={() => {
+                                                setShowEditModal(false);
+                                                setEditingItem(null); // Clear editingItem state
+                                            }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
                                 ) : (
-                                    <button
-                                        type="button"
-                                        className="btn btn-link btn-sm btn-rounded"
-                                        onClick={() => handleEditClick(item)}
-                                    >
-                                        Edit
-                                    </button>
+                                    <>
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary btn-sm btn-rounded"
+                                            onClick={() => handleEditClick(item)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm btn-rounded"
+                                            onClick={() => handleDelete(item._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </>
                                 )}
-                                <button
-                                    type="button"
-                                    className="btn btn-link btn-sm btn-rounded"
-                                    onClick={() => handleDelete(item._id)}
-                                >
-                                    Delete
-                                </button>
                             </td>
                         </tr>
                     ))}

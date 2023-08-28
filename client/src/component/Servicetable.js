@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Import Swal from sweetalert2
 
 export default function Servicetable({ userId }) {
     const [services, setServices] = useState([]);
@@ -67,10 +68,28 @@ export default function Servicetable({ userId }) {
 
     const handleDelete = async (serviceId) => {
         try {
-            const response = await axios.delete(`http://localhost:5000/services/${serviceId}`);
-            setServices((prevServices) => prevServices.filter((service) => service._id !== serviceId));
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this service!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            });
+
+            if (result.isConfirmed) {
+                const response = await axios.delete(`http://localhost:5000/services/${serviceId}`);
+                if (response.status === 200) {
+                    setServices(prevServices => prevServices.filter(service => service._id !== serviceId));
+                    Swal.fire('Deleted!', 'The service has been deleted.', 'success');
+                } else {
+                    Swal.fire('Error', 'An error occurred while deleting the service.', 'error');
+                }
+            }
         } catch (error) {
-            // Handle error
+            console.error('Error deleting service:', error);
+            Swal.fire('Error', 'An error occurred while deleting the service.', 'error');
         }
     };
 
@@ -125,29 +144,47 @@ export default function Servicetable({ userId }) {
                             </td>
                             <td>
                                 {editingServiceId === service._id ? (
-                                    <button
-                                        type="button"
-                                        className="btn btn-link btn-sm btn-rounded"
-                                        onClick={handleEditConfirm}
-                                    >
-                                        Save
-                                    </button>
+                                    <>
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary btn-sm btn-rounded"
+                                            onClick={handleEditConfirm}
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm btn-rounded"
+                                            onClick={() => {
+                                                setEditingServiceId(null);
+                                                setEditedFields({
+                                                    companyname: '',
+                                                    description: '',
+                                                    phone: '',
+                                                });
+                                            }}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
                                 ) : (
-                                    <button
-                                        type="button"
-                                        className="btn btn-link btn-sm btn-rounded"
-                                        onClick={() => handleEditClick(service)}
-                                    >
-                                        Edit
-                                    </button>
+                                    <>
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary btn-sm btn-rounded"
+                                            onClick={() => handleEditClick(service)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm btn-rounded"
+                                            onClick={() => handleDelete(service._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </>
                                 )}
-                                <button
-                                    type="button"
-                                    className="btn btn-link btn-sm btn-rounded"
-                                    onClick={() => handleDelete(service._id)}
-                                >
-                                    Delete
-                                </button>
                             </td>
                         </tr>
                     ))}

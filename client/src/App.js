@@ -43,9 +43,7 @@ function App() {
           <Route element={<Providerhome />} path="/Providerhome" />
           <Route element={<Profile />} path="/Profile" />
           <Route element={<WaitingHome />} path="/WaitingHome" />
-
         </Routes>
-
         <Footer />
       </BrowserRouter>
 
