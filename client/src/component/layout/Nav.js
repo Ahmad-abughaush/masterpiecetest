@@ -61,13 +61,10 @@ export default function Nav() {
                             style={{ width: 70, height: 50 }}
                             alt="Logo"
                         />
-                        <button
-                            className="navbar-toggler"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarTogglerDemo02"
-                        >
-                            <span className="navbar-toggler-icon">b</span>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02">
+                            <span className="navbar-toggler-icon">A.S</span>
                         </button>
+
                         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
                             <ul
                                 className="navbar-nav me-auto mb-2 mb-lg-0"

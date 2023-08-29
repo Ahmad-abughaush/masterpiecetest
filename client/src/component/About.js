@@ -3,8 +3,6 @@ import Nav from "../component/layout/Nav"
 import "../css/About.css"
 import Footer from './layout/Footer'
 
-
-
 export default function About() {
   return (
     <>
@@ -13,7 +11,7 @@ export default function About() {
         <section id>
           <div id="about-section1" className="container">
             <div className="row">
-              <div className="col-lg-5 col-sm-10" style={{ paddingTop: "10rem" }}>
+              <div className="col-lg-5 col-sm-10" style={{ paddingTop: "14  rem" }}>
                 <img
                   className="img-responsive"
                   src="https://media.istockphoto.com/id/1354891373/photo/a-male-electrician-works-in-a-switchboard-with-an-electrical-connecting-cable.jpg?s=612x612&w=0&k=20&c=Kf3dKdLua7qjo_ekhqGOKeL-f9rxxjNsvAkNgKZJ6BI="
