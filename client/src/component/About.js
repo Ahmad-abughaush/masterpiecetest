@@ -1,9 +1,12 @@
 import React from 'react'
 import Nav from "../component/layout/Nav"
 import "../css/About.css"
-import Footer from './layout/Footer'
+import { useEffect } from 'react'
 
 export default function About() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Nav />
@@ -11,7 +14,7 @@ export default function About() {
         <section id>
           <div id="about-section1" className="container">
             <div className="row">
-              <div className="col-lg-5 col-sm-10" style={{ paddingTop: "14  rem" }}>
+              <div className="col-lg-5 col-sm-10" >
                 <img
                   className="img-responsive"
                   src="https://media.istockphoto.com/id/1354891373/photo/a-male-electrician-works-in-a-switchboard-with-an-electrical-connecting-cable.jpg?s=612x612&w=0&k=20&c=Kf3dKdLua7qjo_ekhqGOKeL-f9rxxjNsvAkNgKZJ6BI="
@@ -23,8 +26,8 @@ export default function About() {
                 />
               </div>
               <div className=" about-section col-lg-7 col-sm-12 mt-5" >
-                <h1 style={{textAlign:'center'}}>About Us</h1>
-                <hr/>
+                <h1 style={{ textAlign: 'center' }}>About Us</h1>
+                <hr />
                 <br />
                 <p id="fs-3" className="fs-3">
                   The main objective of A.E.S is help factories and industrial stores

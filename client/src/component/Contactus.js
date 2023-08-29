@@ -1,119 +1,171 @@
-import { Themecontext } from "../App";
-import "../css/Contactus.css"
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
+import emailjs from "emailjs-com";
+import '../css/Contactus.css'
 import Nav from "./layout/Nav";
+import Swal from "sweetalert2";
+
 
 export default function Contactus() {
-    const [firstName, setFirstname] = useState("")
-    const [lastNAME, setLastname] = useState("");
-    const [Email, setEmail] = useState("")
-    const [PhoneNumber, setPhonenumber] = useState("")
-    const [Message, setMessage] = useState("")
-    const [Data, setData] = useState([])
+    const form = useRef();
 
-    useEffect(() => {
-        const storedData = JSON.parse(localStorage.getItem("contactData"))
-        if (storedData) {
-            setData(storedData);
-        }
-    }
-        , []);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [subject, setSubject] = useState("");
+    const [message, setMessage] = useState("");
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const newData = {
-            firstName, lastNAME, Email, PhoneNumber, Message
-        }
-        const updatedData = [...Data, newData]
-        setData(updatedData)
-        localStorage.setItem("contactData", JSON.stringify(updatedData))
+    const sendEmail = (e) => {
+        e.preventDefault();
+        const templateParams = {
+            from_name: name,
+            from_email: email,
+            subject: subject,
+            message: message,
+        };
 
+        emailjs.send("service_k8bzo8p", "template_dcfg0g9", templateParams, "dwSj0TzbTpDFQdTUe")
+            .then(
+                (result) => {
+                    // Show SweetAlert success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Your message has been successfully sent',
+                    });
+
+                    // Reset form values
+                    setName("");
+                    setEmail("");
+                    setSubject("");
+                    setMessage("");
+                },
+                (error) => {
+                    console.log(error.text);
+                }
+            );
     };
-    
+
 
     return (
+
         <>
-        <div className="contact_us_2">
-            <div className="responsive-container-block big-container">
-                <div className="blueBG"></div>
-                <div className="responsive-container-block container">
+            <Nav />
+            <section style={{ marginTop: '100px' }}>
+                <h2 className="h1-responsive font-weight-bold text-center my-4">
+                    Contact us
+                </h2>
+                <p className="text-center w-responsive mx-auto mb-5">
+                    Do you have any questions? Please do not hesitate to contact us directly.
+                    Our team will come back to you within a matter of hours to help you.
+                </p>
+                <div className="row">
+                    <div className="center-container" style={{ marginTop: "-10rem" }}>
 
-                    <form className="form-box" onClick={handleSubmit}>
-                        <div className="container-block form-wrapper">
-                            <p className="text-blk contactus-head">Get in Touch</p>
-                            <p className="text-blk contactus-subhead">
-                            </p>
-                            <div className="responsive-container-block">
-                                <div
-                                    className="responsive-cell-block wk-ipadp-6 wk-tab-12 wk-mobile-12 wk-desk-6" id="i10mt" >
-                                    <p className="text-blk input-title">FIRST NAME</p>
-                                    <input
-                                        className="input"
-                                        placeholder="Please enter first name..."
-                                        onChange={(e) => setFirstname(e.target.value)}
-                                        name="firstname"
-                                        type="text"
-                                    />
+                        <form
+                            id="contact-form"
+                            name="contact-form"
+                            action="mail.php"
+                            method="POST"
+                        >
+                            {/*Grid row*/}
+                            <div className="row">
+                                {/*Grid column*/}
+                                <div className="col-md-6">
+                                    <div className="md-form mb-0">
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            className="form-control"
+                                        />
+                                        <label htmlFor="name" className="">
+                                            Your name
+                                        </label>
+                                    </div>
                                 </div>
 
-                                <div className="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                                    <p className="text-blk input-title">LAST NAME</p>
-                                    <input
-                                        className="input"
-                                        placeholder="Please enter last name..."
-                                        onChange={(e) => setLastname(e.target.value)}
-                                        name="lastname"
-                                        type="text"
-
-                                    />
+                                <div className="col-md-6">
+                                    <div className="md-form mb-0">
+                                        <input
+                                            type="text"
+                                            id="email"
+                                            name="email"
+                                            className="form-control"
+                                        />
+                                        <label htmlFor="email" className="">
+                                            Your email
+                                        </label>
+                                    </div>
                                 </div>
+                                {/*Grid column*/}
+                            </div>
 
-                                <div className="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                                    <p className="text-blk input-title">EMAIL</p>
-                                    <input
-                                        className="input"
-                                        placeholder="Please enter email..."
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        name="email"
-                                        type="email"
-
-                                    />
-                                </div>
-
-                                <div className="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
-                                    <p className="text-blk input-title">PHONE NUMBER</p>
-                                    <input
-                                        className="input"
-                                        placeholder="Please enter phone number..."
-                                        onChange={(e) => setPhonenumber(e.target.value)}
-                                        name="phonenumber"
-                                        type="number"
-
-                                    />
-                                </div>
-                                <div
-                                    className="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12"
-                                    id="i634i"
-                                >
-                                    <p className="text-blk input-title">WHAT DO YOU HAVE IN MIND</p>
-                                    <textarea
-                                        className="textinput"
-                                        id="i5vyy"
-                                        placeholder="Please enter query..."
-                                        defaultValue={""}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                        name="message"
-                                        type="textarea"
-                                    />
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="md-form mb-0">
+                                        <input
+                                            type="text"
+                                            id="subject"
+                                            name="subject"
+                                            className="form-control"
+                                        />
+                                        <label htmlFor="subject" className="">
+                                            Subject
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <button className="submit-btn" >Submit</button>
-                        </div>
+                            {/*Grid row*/}
+                            {/*Grid row*/}
+                            <div className="row">
+                                {/*Grid column*/}
+                                <div className="col-md-12">
+                                    <div className="md-form">
+                                        <textarea
+                                            type="text"
+                                            id="message"
+                                            name="message"
+                                            rows={2}
+                                            className="form-control md-textarea"
+                                            defaultValue={""}
+                                        />
+                                        <label htmlFor="message">Your message</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  style={{display:'flex' ,justifyContent:'center'}}>
+                                <button className="btn btn-dark" type="submit" onClick={sendEmail}>
+                                    Send
+                                </button>
+                            </div>
+                            {/*Grid row*/}
+                        </form>
 
-                    </form>
+
+                        <div className="status" />
+                        <div className="col-md-3 text-center">
+                            <ul className="list-unstyled mb-0">
+                                <li>
+                                    <i className="fas fa-map-marker-alt fa-2x" />
+                                    <p>ZARQA,JORDAN</p>
+                                </li>
+                                <li>
+                                    <i className="fas fa-phone mt-4 fa-2x" />
+                                    <p>+ 962 799634896</p>
+                                </li>
+                                <li>
+                                    <i className="fas fa-envelope mt-4 fa-2x" />
+                                    <p>ahmedabughoshh@gmail.com</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="col-md-3 text-center">
+                        {/* Contact information */}
+                    </div>
+
                 </div>
-            </div>
-        </div>
-</>
-    )
+            </section>
+        </>
+    );
 }

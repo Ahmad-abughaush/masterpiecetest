@@ -5,13 +5,10 @@ import { BsPersonCircle } from 'react-icons/bs';
 import { FaShoppingCart } from 'react-icons/fa';
 import jwtDecode from 'jwt-decode';
 
-
-
-
 export default function Nav() {
     const [cartItems, setCartItems] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userRole, setUserRole] = useState(''); // Fix: Changed setUserrole to setUserRole
+    const [userRole, setUserRole] = useState('');
     const navigate = useNavigate();
     const [cartCount, setCartCount] = useState(0);
 
@@ -23,29 +20,27 @@ export default function Nav() {
         }
     }, []);
 
-    // Function to remove an item from the cart
-    const removeFromCart = (index) => {
-        const updatedCartItems = [...cartItems];
-        updatedCartItems.splice(index, 1);
-        setCartItems(updatedCartItems);
-    };
-
-    // Check if a token exists in local storage
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
         if (token) {
             const decodedToken = jwtDecode(token);
-            setUserRole(decodedToken.role); // Fix: Set the userRole based on the decoded token
+            setUserRole(decodedToken.role);
         }
     }, []);
 
     const handleLogout = () => {
-        // Remove the token from local storage
         localStorage.removeItem('token');
         setIsLoggedIn(false);
-        navigate('/Login'); // Fix: Corrected the route to "/Login"
+        navigate('/Login');
     };
+
+    useEffect(() => {
+        const handleNavigation = () => {
+            window.scrollTo(0, 0);
+        };
+        navigate(handleNavigation);
+    }, [navigate]);
 
     return (
         <>

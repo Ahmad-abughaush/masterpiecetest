@@ -1,12 +1,16 @@
 import React from 'react';
+import {useEffect} from 'react';
 import '../css/Home.css';
 import { Link } from 'react-router-dom';
 import Nav from './layout/Nav';
 import siemens from '../component/img/siemens.jpg'
 import sharp from "../component/img/sharp.png"
-// import abb from "../component/img/"
 export default function Home() {
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scroll to the top when the component mounts
+    }, []);
     return (
+        
         <>
             <Nav />
             <div>
@@ -32,26 +36,13 @@ export default function Home() {
                                             <span>Welcome</span> <span>To</span> <span> A.E.S </span>
                                         </div>
                                     </div>
-                                    <p style={{ fontSize: '26px' }}>
-                                        Abughaush for electrical solutions is a platform designed to help
-                                        factories and industrial stores get the products and services of
-                                        electrical industries that are required related to industrial fields
+                                    <p style={{ fontSize: '22px' }}>
+                                        Within this page, you have the opportunity to illuminate your offerings,
+                                        sharing the products and services you provide, enriching the Abughaush for Electrical Solutions
                                     </p>
                                 </div>
                             </div>
                             <div className="lc-block">
-                                <div editable="rich">
-                                    <br />
-                                    <a
-                                        className="btn btn-outline-light btn-lg"
-                                        href="/Electricalproducts"
-                                        role="button"
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        {' '}
-                                        explore more{' '}
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>

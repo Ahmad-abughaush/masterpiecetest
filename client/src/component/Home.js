@@ -32,10 +32,9 @@ export default function Home() {
                                             <span>Welcome</span> <span>To</span> <span> A.E.S </span>
                                         </div>
                                     </div>
-                                    <p style={{ fontSize: '26px' }}>
-                                        Abughaush for electrical solutions is a platform designed to help
-                                        factories and industrial stores get the products and services of
-                                        electrical industries that are required related to industrial fields
+                                    <p style={{ fontSize: '22px' }}>
+                                        Abughaush for Electrical Solutions sparks a revolution in the industrial realm, illuminating a path for factories and industrial outlets
+                                        to seamlessly access the vital products and services they need from the electrical industry."
                                     </p>
                                 </div>
                             </div>
@@ -90,7 +89,7 @@ export default function Home() {
 
 
 
-                <section style={{paddingTop:'100px'}} >
+                <section style={{ paddingTop: '100px' }} >
 
                     <h1 className="prohead" >
                         <b>Discover Our Electrifying Range of Electrical Brands" </b>
