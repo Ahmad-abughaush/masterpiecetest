@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Nav from './layout/Nav';
 import axios from 'axios';
 import '../css/Eelectricalproducts.css';
-import Footer from './layout/Footer';
 
 export default function Electricalservices() {
     const [data, setData] = useState([]);
@@ -108,7 +107,6 @@ export default function Electricalservices() {
                     </div>
                 </div>
             </section>
-            <Footer/>
         </>
     );
 }

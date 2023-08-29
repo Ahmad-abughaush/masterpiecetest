@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import backgroundimg from "./img/بكبس-transformed.jpeg";
 import jwtDecode from 'jwt-decode';
-
+import Nav from './layout/Nav';
 const FormInput = ({ label, type, placeholder, value, onChange, required }) => (
     <div className="form-group">
         <label htmlFor={label}>{label}</label>
@@ -76,6 +76,7 @@ export const Providerservice = () => {
 
     return (
         <div>
+            <Nav/>
             <section>
                 <div
                     id="product-service-page"
@@ -92,7 +93,7 @@ export const Providerservice = () => {
                         <div className="lc-block mb-">
                             <div editable="rich">
                                 <form style={{ marginTop: '15%' }} onSubmit={onSubmitForm}>
-                                    <h1 style={{ color: 'white', marginBottom: '10%' }}>Provide Us With Your Product Details</h1>
+                                    <h1 style={{ color: 'white', marginBottom: '10%' }}>Provide Us With Your Service Details</h1>
 
                                     <FormInput
                                         label="Company Name"

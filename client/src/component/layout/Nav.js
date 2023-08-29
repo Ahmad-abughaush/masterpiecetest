@@ -13,6 +13,15 @@ export default function Nav() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userRole, setUserRole] = useState(''); // Fix: Changed setUserrole to setUserRole
     const navigate = useNavigate();
+    const [cartCount, setCartCount] = useState(0);
+
+    useEffect(() => {
+        const storedProducts = localStorage.getItem('cartProducts');
+        if (storedProducts) {
+            const cartProductList = JSON.parse(storedProducts);
+            setCartCount(cartProductList.length);
+        }
+    }, []);
 
     // Function to remove an item from the cart
     const removeFromCart = (index) => {
@@ -66,7 +75,7 @@ export default function Nav() {
                             >
 
                                 <li className="nav-item">
-                                    {userRole === "user"  ? (
+                                    {userRole === "user" ? (
                                         <Link
                                             to="/"
                                             className="nav-link"
@@ -115,19 +124,18 @@ export default function Nav() {
                             </ul>
 
                             <div style={{ marginRight: '30px' }}>
-                                <Link
-                                    to="/ShoppingCart"
-                                    style={{ textDecoration: 'none', listStyle: 'none' }}
-                                >
+                                <Link to="/ShoppingCart" style={{ textDecoration: 'none', listStyle: 'none' }}>
                                     <FaShoppingCart
                                         style={{
                                             width: '25px',
                                             height: '30px',
-                                            color: cartItems.length > 0 ? 'brightblue' : 'black',
+                                            color: cartCount > 0 ? 'blue' : 'black',
                                         }}
                                     />
-                                    {cartItems.length > 0 && (
-                                        <span className="cart-items">{cartItems.length}</span>
+                                    {cartCount > 0 && (
+                                        <span className="cart-items" style={{ fontSize: '1.3rem', marginLeft: '5px' }}>
+                                            {cartCount}
+                                        </span>
                                     )}
                                 </Link>
                             </div>

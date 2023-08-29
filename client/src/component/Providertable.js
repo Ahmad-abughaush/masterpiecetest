@@ -77,10 +77,9 @@ export default function Providertable({ userId }) {
 
     return (
 
-        <div>
+        <div >
             <br />
             <br />
-
             <table className="table align-middle mb-0 bg-white">
                 <thead className="bg-light">
                     <tr>

@@ -6,11 +6,7 @@ import "../layout/Footer.css"
 export default function Footer() {
     return (
         <>
-
-
-            <br />
-            <br />
-            <footer className="bg-white">
+            <footer className=" bg-white" id='footer'>
                 <div className="container py-5" >
                     <div className="row py-3">
                         <div className="col-lg-2 col-md-6 mb-4 mb-lg-0">

@@ -72,120 +72,88 @@ export default function Profile() {
   return (
     <>
       <Nav />
-      <div>
-        <div className="container">
-          <div className="main-body">
-            {isLoading ? (
-              <div>Loading...</div>
-            ) : error ? (
-              <div>{error}</div>
-            ) : (
-              <div className="row gutters-sm" style={{ marginTop: "100px" }}>
-                <div className="col-md-4 mb-3">
-                  <div className="topside">
-                    <div className="d-flex flex-column align-items-center text-center">
-                      <img
-                        src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                        alt="Admin"
-                        className="rounded-circle"
-                        width={150}
-                      />
-                      <div className="mt-5">
-                        <h4>{username}</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-8">
-                  <div className="card mb-3">
-                    <div className="card-body">
-                      <form onSubmit={handleUpdate}>
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">Full Name</h6>
-                          </div>
-                          <div className="col-sm-9">
-                            <input
-                              type="text"
-                              value={username}
-                              onChange={(e) => setUsername(e.target.value)}
-                              style={{ width: '300px' }}
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">Email</h6>
-                          </div>
-                          <div className="col-sm-9">
-                            <input
-                              type="email"
-                              value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              style={{ width: '300px' }}
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">Phone</h6>
-                          </div>
-                          <div className="col-sm-9">
-                            <input
-                              type="text"
-                              value={phone}
-                              onChange={(e) => setPhone(e.target.value)}
-                              style={{ width: '300px' }}
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">New Password</h6>
-                          </div>
-                          <div className="col-sm-9">
-                            <input
-                              placeholder='**********'
-                              type="password"
-                              value={newPassword}
-                              onChange={(e) => setNewPassword(e.target.value)}
-                              style={{ width: '300px' }}
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                          <div className="col-sm-3">
-                            <h6 className="mb-0">Confirm New Password</h6>
-                          </div>
-                          <div className="col-sm-9">
-                            <input
-                              placeholder='**********'
-                              type="password"
-                              value={confirmPassword}
-                              onChange={(e) => setConfirmPassword(e.target.value)}
-                              style={{ width: '300px' }}
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className='btn-con' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                          <button type="submit" className="btn btn-info">
-                            Save Changes
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
+      <div className="container">
+      <div className="main-body">
+        <div className="row gutters-sm " style={{marginTop:'70px'}}>
+          <div className="col-md-4 mb-3">
+            <div className="topside">
+              <div className="d-flex flex-column align-items-center text-center">
+                <img
+                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                  alt="Admin"
+                  className="rounded-circle"
+                  width={150}
+                />
+                <div className="mt-5">
+                  <h4>{username}</h4>
                 </div>
               </div>
-            )}
+            </div>
+          </div>
+          <div className="col-md-8">
+            <div className="card mb-3">
+              <div className="card-body">
+                <form onSubmit={handleUpdate}>
+                  <div className="form-group">
+                    <label className="mb-1">Full Name</label>
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="mb-1">Email</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="mb-1">Phone</label>
+                    <input
+                      type="text"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="mb-1">New Password</label>
+                    <input
+                      placeholder='**********'
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="mb-1">Confirm New Password</label>
+                    <input
+                      placeholder='**********'
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="form-control"
+                    />
+                  </div>
+                  <div className='btn-con' style={{display:'flex' ,justifyContent:'center'}}>
+                    <button type="submit" className="btn btn-info btn-block mt-3">
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
 
       {role === "user" ? (
         userId && <Ordertable userId={userId} />

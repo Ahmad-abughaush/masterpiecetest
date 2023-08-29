@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 export default function Ordertable({ userId }) {
     const [orders, setOrders] = useState([]);
 
@@ -18,10 +17,26 @@ export default function Ordertable({ userId }) {
             setOrders([]);
         }
     };
+    // const handleReorder = async (orderId) => {
+    //     try {
+    //         const response = await axios.post(`http://localhost:5000/orders/reorder/${orderId}`, {
+    //             userId: userId,
+    //         });
 
-    if (!orders || orders.length === 0) {
-        return <div>No orders to display.</div>;
-    }
+    //         const newOrder = response.data;
+
+    //         // Update the UI with the new order
+    //         setOrders(prevOrders => [...prevOrders, newOrder]);
+    //     } catch (error) {
+    //         console.error('Error reordering:', error);
+    //     }
+    // };
+
+
+    // if (!orders || orders.length === 0) {
+    //     return <div>No orders to display.</div>;
+    // }
+
 
     return (
         <div>
@@ -33,7 +48,7 @@ export default function Ordertable({ userId }) {
                         <th>Subtotal</th>
                         <th>Total</th>
                         <th>Address</th>
-                        <th>Actions</th>
+                        {/* <th>Actions</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -80,11 +95,16 @@ export default function Ordertable({ userId }) {
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <button type="button" className="btn btn-link btn-sm btn-rounded">
-                                    Edit
+                            {/* <td>
+                                <button
+                                
+                                    type="button"
+                                    className="btn btn-link btn-sm btn-rounded"
+                                    // onClick={() => handleReorder(order._id)}
+                                >
+                                    Reorder
                                 </button>
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>

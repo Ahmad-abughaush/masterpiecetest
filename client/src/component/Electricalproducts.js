@@ -139,7 +139,7 @@ const ElectricalProducts = () => {
           </div>
         </div>
       </section>
-      <Footer />
+      
     </>
   );
 };

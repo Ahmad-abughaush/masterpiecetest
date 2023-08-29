@@ -42,3 +42,11 @@
      flex-wrap: wrap;
      ;
  }
+
+ /* Add this to your Eelectricalproducts.css or appropriate CSS file */
+ .content {
+     max-height: calc(100vh - 120px);
+     /* Adjust the value to leave space for the header and padding */
+     overflow-y: auto;
+     /* Add vertical scroll if content exceeds the height */
+ }
